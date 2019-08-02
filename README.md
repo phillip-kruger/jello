@@ -1,2 +1,2 @@
-# jello
-Like Trello but not
+# Jello
+Like Trello, but not
