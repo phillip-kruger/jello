@@ -57,6 +57,7 @@
        
         <!-- Testing -->
         <arquillian.version>1.4.1.Final</arquillian.version>
+        <resteasy.version>4.1.1.Final</resteasy.version>
         <testng.version>6.14.3</testng.version>
         
     </properties>
@@ -71,6 +72,15 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            <!-- RestEasy BOM -->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-bom</artifactId>
+                <version>${resteasy.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>

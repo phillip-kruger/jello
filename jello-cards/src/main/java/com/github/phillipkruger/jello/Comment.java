@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package com.github.phillipkruger.jello.cards;
+package com.github.phillipkruger.jello;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Basic API for Cards
+ * Represent a comment on a card
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
-@RequestScoped
-@Path("/card")
-//@Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON)
-public class CardService {
-
-    @GET
-    public Response ping(){
-        return Response.ok("pong").build();
-    }
-    
+@Data @AllArgsConstructor @NoArgsConstructor
+public class Comment {
+    private String comment;
+    private LocalDateTime madeOn;
+    private String madeBy;
 }

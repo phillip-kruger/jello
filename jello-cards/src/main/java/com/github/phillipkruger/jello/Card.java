@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Phillip Kruger.
+ * Copyright 2019 Phillip Kruger (phillip.kruger@redhat.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.phillipkruger.jello.cards;
+package com.github.phillipkruger.jello;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Activate JAX-RS.
- * 
+ * Represent a card in a lane on a board
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
-@ApplicationPath("/api")
-public class ApplicationConfig extends Application {
-
+@Data @AllArgsConstructor @NoArgsConstructor
+public class Card {
+    private String id;
+    private String title;
+    private String description;
+    private List<Comment> comments;
 }
