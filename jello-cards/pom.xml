@@ -15,7 +15,20 @@
     
     <name>Jello :: Cards</name>
     
+    <properties>
+        <javafaker.version>1.0.0</javafaker.version>
+        <h2.version>1.4.199</h2.version>
+    </properties>
+    
     <dependencies>
+        <!-- Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+        
+        <!-- Testing -->
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>
             <artifactId>arquillian-testng-container</artifactId>
@@ -26,7 +39,13 @@
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
-        
+        <!-- Java Faker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${javafaker.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <profiles>
@@ -51,6 +70,7 @@
             </dependencyManagement>
             
             <dependencies>
+                <!-- JAX-RS -->
                 <dependency>
                     <groupId>io.thorntail</groupId>
                     <artifactId>jaxrs</artifactId>
@@ -64,6 +84,25 @@
                 <dependency>
                     <groupId>org.jboss.resteasy</groupId>
                     <artifactId>resteasy-json-binding-provider</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                
+                <!-- JPA -->
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>jpa</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <!-- Transaction -->
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>transactions</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                
+                <dependency>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>

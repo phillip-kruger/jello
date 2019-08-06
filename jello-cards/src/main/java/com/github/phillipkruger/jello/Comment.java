@@ -16,7 +16,13 @@
 
 package com.github.phillipkruger.jello;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +32,19 @@ import lombok.NoArgsConstructor;
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Comment {
+@Entity
+public class Comment implements Serializable {
+    private static final long serialVersionUID = -8531040143398373846L;
+    
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    @NotNull
     private String comment;
+    
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm")
     private LocalDateTime madeOn;
+    
     private String madeBy;
 }
