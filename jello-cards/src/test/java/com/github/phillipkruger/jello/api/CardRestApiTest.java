@@ -1,60 +1,29 @@
-/*
- * Copyright 2019 Phillip Kruger (phillip.kruger@redhat.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.github.phillipkruger.jello.api;
 
-import com.github.javafaker.Faker;
 import com.github.phillipkruger.jello.Card;
-import com.github.phillipkruger.jello.Comment;
-import com.github.phillipkruger.jello.service.CardService;
-import java.io.File;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lombok.extern.java.Log;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
 /**
- * Testing Card service
+ * Testing Card service via REST
  * 
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
-@Log
-public class CardApiTest extends Arquillian {
+public class CardRestApiTest extends Arquillian {
 
     private static final String PATH = "api/card";
     
@@ -66,24 +35,13 @@ public class CardApiTest extends Arquillian {
     
     @Deployment
     public static WebArchive createDeployment() {
-
-        final File[] dbdriver = Maven.resolver().resolve("com.h2database:h2:1.4.199")
-                .withoutTransitivity().asFile();
-        
-        return ShrinkWrap.create(WebArchive.class, "CardApiTest.war")
-                .addPackage(CardApi.class.getPackage())
-                .addPackage(Card.class.getPackage())
-                .addPackage(CardService.class.getPackage())
-                .addAsLibraries(dbdriver)
-                .addAsResource("META-INF/persistence.xml")
-                .setWebXML(new File("src/main/webapp/WEB-INF/web.xml"))
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        return TestHelper.createDeployment();
     }
 
     @BeforeTest
     public void setup(){
         this.client = ClientBuilder.newClient();
-        this.testCard = createRandomCard();
+        this.testCard = TestHelper.createRandomCard();
     }
     
     @AfterTest
@@ -151,43 +109,4 @@ public class CardApiTest extends Arquillian {
         
         Assert.assertNull(nullCard);
     }
-    
-    
-    private Card createRandomCard(){
-        Card card = new Card();
-        card.setTitle(faker.funnyName().name());
-        card.setDescription(faker.lorem().paragraph(4));
-        card.setComments(createRandomComments());
-        
-        return card;
-    }
-    
-    private List<Comment> createRandomComments(){
-        List<Comment> comments = new ArrayList<>();
-        int rnd = faker.number().numberBetween(1, 20);
-        
-        for(int i=0;i<rnd;i++){
-            comments.add(createRandomComment());
-        }
-        return comments;
-    }
-    
-    private Comment createRandomComment(){
-        
-        Comment comment = new Comment();
-        comment.setMadeBy(faker.name().fullName());
-        comment.setComment(faker.chuckNorris().fact());
-        comment.setMadeOn(createRandonLocalDateTime());
-        
-        return comment;
-    }
-    
-    private LocalDateTime createRandonLocalDateTime(){
-        Date date = faker.date().past(365, TimeUnit.DAYS);
-        return date.toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
-    }
-    
-    private final Faker faker = new Faker();
 }

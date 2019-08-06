@@ -1,21 +1,6 @@
-/*
- * Copyright 2019 Phillip Kruger (phillip.kruger@redhat.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.github.phillipkruger.jello;
 
+import com.github.phillipkruger.jello.adapter.LocalDateTimeAdapter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.json.bind.annotation.JsonbDateFormat;
@@ -23,6 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,18 +23,24 @@ import lombok.NoArgsConstructor;
  */
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
+@XmlRootElement @XmlAccessorType(XmlAccessType.FIELD)
 public class Comment implements Serializable {
     private static final long serialVersionUID = -8531040143398373846L;
     
     @Id
     @GeneratedValue
+    @XmlAttribute(required=true)
     private Long id;
     
     @NotNull
+    @XmlAttribute(required=true)
     private String comment;
     
+    @XmlAttribute(required=false)
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     @JsonbDateFormat("yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime madeOn;
+    private LocalDateTime madeOn = LocalDateTime.now();
     
-    private String madeBy;
+    @XmlAttribute(required=false)
+    private String madeBy = "Unknown";
 }

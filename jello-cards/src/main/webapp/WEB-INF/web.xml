@@ -10,7 +10,6 @@
     <data-source>
         <name>java:jboss/datasources/JelloDS</name>
         <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
-        <!--<url>jdbc:h2:./data/cards</url>-->
         <url>jdbc:h2:mem:jello-database;DB_CLOSE_DELAY=-1</url>
         <user>sa</user>
         <password>""</password>

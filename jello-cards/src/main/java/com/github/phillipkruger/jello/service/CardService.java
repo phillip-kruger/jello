@@ -27,6 +27,7 @@ public class CardService {
     @Transactional
     public Card createCard(@NotNull Card card) {
         em.persist(card);
+        
         log.log(Level.INFO, "Created card [{0}]", card);
         return card;
     }
@@ -45,11 +46,10 @@ public class CardService {
     }
 
     @Transactional
-    public Card deleteCard(@NotNull Long id) {
+    public void removeCard(@NotNull Long id) {
         Card card = getCard(id);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", card);
-        return card;
     }
 
     @Transactional
