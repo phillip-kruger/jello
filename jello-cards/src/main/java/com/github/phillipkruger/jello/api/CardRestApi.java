@@ -3,7 +3,6 @@ package com.github.phillipkruger.jello.api;
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.service.CardService;
 import java.net.URI;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,8 +22,9 @@ import javax.ws.rs.core.UriInfo;
  * Basic REST API for Cards
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
-@RequestScoped
 @Path("/card")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CardRestApi {
 
     @Inject
@@ -34,14 +34,12 @@ public class CardRestApi {
     private UriInfo uriInfo;
     
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response createCard(Card card){
         card = cardService.createCard(card);
         return Response.created(getGetUri(card)).build();
     }
     
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCard(Card card){
         if(card.getId()==null)return createCard(card);
         card = cardService.updateCard(card);
@@ -50,7 +48,6 @@ public class CardRestApi {
     
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getCard(@PathParam("id") Long id){
         Card card = cardService.getCard(id);
         return Response.ok(card).build();
@@ -58,7 +55,6 @@ public class CardRestApi {
     
     @DELETE
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response removeCard(@PathParam("id") Long id){
         cardService.removeCard(id);
         return Response.noContent().build();

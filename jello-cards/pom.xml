@@ -18,7 +18,21 @@
     <properties>
         <javafaker.version>1.0.0</javafaker.version>
         <h2.version>1.4.199</h2.version>
+        <surefire.version>2.22.1</surefire.version>
+        <thorntail.version>2.5.0.Final</thorntail.version>
     </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>bom-all</artifactId>
+                <version>${thorntail.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>    
+        </dependencies>
+    </dependencyManagement>
     
     <dependencies>
         <!-- Database -->
@@ -35,6 +49,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
@@ -48,15 +67,13 @@
         </dependency>
     </dependencies>
     
-    
-            
     <build>
         <plugins>
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>${surefire.version}</version>
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
@@ -75,24 +92,10 @@
     
     <profiles>
         <profile>
-            <id>thorntail</id>
+            <id>arquillian</id>
             <activation>
-                <property>
-                    <name>!noThorntail</name>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
-            
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.thorntail</groupId>
-                        <artifactId>bom-all</artifactId>
-                        <version>2.5.0.Final</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>    
-                </dependencies>
-            </dependencyManagement>
             
             <dependencies>
                 <!-- JAX-RS -->
@@ -126,16 +129,48 @@
                 </dependency>
                 
                 <dependency>
-                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
                     <groupId>io.thorntail</groupId>
                     <artifactId>arquillian</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
-        </profile> 
+        </profile>
+        
+        <profile>
+            <id>thorntail</id>
+            
+            <build>
+                <plugins>
+      
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+      
+                    <plugin>
+                        <groupId>io.thorntail</groupId>
+                        <artifactId>thorntail-maven-plugin</artifactId>
+                        <version>${thorntail.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <fractionDetectMode>when_missing</fractionDetectMode>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            
+            </build>
+        </profile>
+            
     </profiles>
 </project>

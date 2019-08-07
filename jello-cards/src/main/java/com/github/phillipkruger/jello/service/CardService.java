@@ -6,14 +6,13 @@ import java.util.logging.Level;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.transaction.Transactional;
+import javax.validation.constraints.Min;
 import lombok.extern.java.Log;
 
 /**
- * JPA 2.1, Interceptors 1.2, Bean validation 1.1, CDI 2.0
  * Service in front of the data storage
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
@@ -21,23 +20,21 @@ import lombok.extern.java.Log;
 @Log
 public class CardService {
     
-    @PersistenceContext(name="com.github.phillipkruger.cards",type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext(name="com.github.phillipkruger.cards")
     private EntityManager em;
     
     @Transactional
     public Card createCard(@NotNull Card card) {
         em.persist(card);
-        
         log.log(Level.INFO, "Created card [{0}]", card);
         return card;
     }
     
-    public Card getCard(@NotNull Long id) {
+    public Card getCard(@NotNull @Min(value = 0L) Long id) {
         return em.find(Card.class, id);
     }
     
     public List<Card> searchCards(@NotNull @Size(min=2, max=50) String title) {
-        
         List<Card> cards = (List<Card>)em.createNamedQuery(Card.QUERY_SEARCH_BY_TITLE,Card.class)
 					.setParameter("title", title)
 					.getResultList();
@@ -46,7 +43,7 @@ public class CardService {
     }
 
     @Transactional
-    public void removeCard(@NotNull Long id) {
+    public void removeCard(@NotNull @Min(value = 0L) Long id) {
         Card card = getCard(id);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", card);
