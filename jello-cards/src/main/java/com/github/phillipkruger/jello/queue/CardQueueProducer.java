@@ -2,6 +2,7 @@ package com.github.phillipkruger.jello.queue;
 
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.event.ChangeEvent;
+import com.github.phillipkruger.jello.json.JsonMessage;
 import javax.ejb.Stateless;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -24,18 +25,18 @@ public class CardQueueProducer {
     @Inject
     private Queue queue;
     
-    //@Inject
-    //private NotesMarshaller marshaller;
+    @Inject
+    private JsonMessage jsonMessage;
     
     public void receiveChangeEvent(@ObservesAsync ChangeEvent event) {
     
         Card card = event.getCard();
-        byte[] message = card.toString().getBytes();//marshaller.marshall(card);
+        String json = jsonMessage.toJsonMessage(card);
 
         JMSProducer producer = context.createProducer();
         producer.setProperty(ACTION_PROPERTY, event.getType());
-        producer.send(queue, message);
-        log.severe("Added changeEvent to queue " + event);
+        producer.send(queue, json);
+        log.severe("Added changeEvent to queue \n" + json);
     }
     
     private static final String ACTION_PROPERTY = "ChangeEvent";
