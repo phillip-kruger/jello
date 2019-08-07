@@ -20,7 +20,7 @@ import org.testng.annotations.BeforeTest;
 
 /**
  * Testing Card service via SOAP
- * 
+ *
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 public class CardSoapApiTest extends Arquillian {
@@ -34,7 +34,7 @@ public class CardSoapApiTest extends Arquillian {
     @Deployment
     public static WebArchive createDeployment() {
         return TestHelper.createDeployment();
-    }
+}
 
     @BeforeTest
     public void createTestData(){

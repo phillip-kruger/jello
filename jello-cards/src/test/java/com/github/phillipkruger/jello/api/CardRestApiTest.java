@@ -32,12 +32,12 @@ public class CardRestApiTest extends Arquillian {
     
     private Client client;
     private Card testCard;
-    
+
     @Deployment
     public static WebArchive createDeployment() {
         return TestHelper.createDeployment();
     }
-
+    
     @BeforeTest
     public void setup(){
         this.client = ClientBuilder.newClient();

@@ -12,11 +12,11 @@ public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
     
     @Override
     public LocalDateTime unmarshal(String v) throws Exception {
-        return LocalDateTime.parse(v,DateTimeFormatter.ISO_DATE_TIME);
+        return LocalDateTime.parse(v,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
     }
 
     @Override
     public String marshal(LocalDateTime v) throws Exception {
-        return v.format(DateTimeFormatter.ISO_DATE_TIME);
+        return v.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
     }
 }

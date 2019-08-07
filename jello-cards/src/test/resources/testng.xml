@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="jello">
+
+    <test name="soap">
+        <classes>
+            <class name="com.github.phillipkruger.jello.api.CardSoapApiTest" />
+        </classes>
+    </test>
+
+    <test name="rest">
+        <classes>
+           <class name="com.github.phillipkruger.jello.api.CardRestApiTest" /> 
+        </classes>
+    </test>
+
+</suite>
