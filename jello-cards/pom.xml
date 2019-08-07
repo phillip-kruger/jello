@@ -114,7 +114,6 @@
                     <artifactId>resteasy-json-binding-provider</artifactId>
                     <scope>test</scope>
                 </dependency>
-                
                 <!-- JPA -->
                 <dependency>
                     <groupId>io.thorntail</groupId>
@@ -127,7 +126,25 @@
                     <artifactId>transactions</artifactId>
                     <scope>test</scope>
                 </dependency>
+                <!-- SOAP -->
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>webservices</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <!-- CDI -->
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>cdi</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>spi</artifactId>
+                    <scope>test</scope>
+                </dependency>
                 
+                <!-- arquillian -->        
                 <dependency>
                     <groupId>io.thorntail</groupId>
                     <artifactId>arquillian</artifactId>

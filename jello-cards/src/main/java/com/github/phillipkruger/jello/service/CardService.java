@@ -1,6 +1,7 @@
 package com.github.phillipkruger.jello.service;
 
 import com.github.phillipkruger.jello.Card;
+import com.github.phillipkruger.jello.event.Notify;
 import java.util.List;
 import java.util.logging.Level;
 import javax.enterprise.context.RequestScoped;
@@ -23,6 +24,7 @@ public class CardService {
     @PersistenceContext(name="com.github.phillipkruger.cards")
     private EntityManager em;
     
+    @Notify("create")
     @Transactional
     public Card createCard(@NotNull Card card) {
         em.persist(card);
@@ -30,6 +32,7 @@ public class CardService {
         return card;
     }
     
+    @Notify("retrieve")
     public Card getCard(@NotNull @Min(value = 0L) Long id) {
         return em.find(Card.class, id);
     }
@@ -42,13 +45,16 @@ public class CardService {
         return cards;
     }
 
+    @Notify("delete")
     @Transactional
-    public void removeCard(@NotNull @Min(value = 0L) Long id) {
+    public Card removeCard(@NotNull @Min(value = 0L) Long id) {
         Card card = getCard(id);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", card);
+        return card;
     }
 
+    @Notify("update")
     @Transactional
     public Card updateCard(@NotNull Card card) {
         card = em.merge(card);
