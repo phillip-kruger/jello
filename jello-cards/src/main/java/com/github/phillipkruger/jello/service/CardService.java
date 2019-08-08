@@ -1,10 +1,12 @@
 package com.github.phillipkruger.jello.service;
 
 import com.github.phillipkruger.jello.Card;
+import com.github.phillipkruger.jello.event.ChangeEventType;
 import com.github.phillipkruger.jello.event.Notify;
 import java.util.List;
 import java.util.logging.Level;
 import javax.enterprise.context.RequestScoped;
+import javax.json.bind.JsonbBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
@@ -24,15 +26,15 @@ public class CardService {
     @PersistenceContext(name="com.github.phillipkruger.cards")
     private EntityManager em;
     
-    @Notify("create")
+    @Notify(ChangeEventType.create)
     @Transactional
     public Card createCard(@NotNull Card card) {
         em.persist(card);
-        log.log(Level.INFO, "Created card [{0}]", card);
+        log.log(Level.INFO, "Created card [{0}]", JsonbBuilder.create().toJson(card));
         return card;
     }
     
-    @Notify("retrieve")
+    @Notify(ChangeEventType.retrieve)
     public Card getCard(@NotNull @Min(value = 0L) Long id) {
         return em.find(Card.class, id);
     }
@@ -45,24 +47,24 @@ public class CardService {
         return cards;
     }
 
-    @Notify("delete")
+    @Notify(ChangeEventType.delete)
     @Transactional
     public Card removeCard(@NotNull @Min(value = 0L) Long id) {
         Card card = getCard(id);
         em.remove(card);
-        log.log(Level.INFO, "Removing card [{0}]", card);
+        log.log(Level.INFO, "Removing card [{0}]", JsonbBuilder.create().toJson(card));
         return card;
     }
 
-    @Notify("update")
+    @Notify(ChangeEventType.update)
     @Transactional
     public Card updateCard(@NotNull Card card) {
         card = em.merge(card);
-        log.log(Level.INFO, "Updated card [{0}]", card);
+        log.log(Level.INFO, "Updated card [{0}]", JsonbBuilder.create().toJson(card));
         return card;
     }
     
     public List<Card> getAllCards() {
-        return em.createNamedQuery("Card.findAll", Card.class).getResultList();
+        return em.createNamedQuery(Card.QUERY_FIND_ALL, Card.class).getResultList();
     }
 }

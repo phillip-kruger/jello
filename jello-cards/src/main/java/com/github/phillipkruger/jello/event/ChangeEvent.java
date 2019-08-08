@@ -21,5 +21,5 @@ public class ChangeEvent {
     @NotNull @XmlElementRef
     private Card card;
     @NotNull @XmlAttribute
-    private String type;
+    private ChangeEventType type;
 }

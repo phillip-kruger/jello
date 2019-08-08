@@ -19,20 +19,11 @@
         <javafaker.version>1.0.0</javafaker.version>
         <h2.version>1.4.199</h2.version>
         <surefire.version>2.22.1</surefire.version>
-        <thorntail.version>2.5.0.Final</thorntail.version>
+        
+        <!-- Javascript libraries -->
+        <semantic-ui.version>2.4.1</semantic-ui.version>
+        <jquery.version>3.1.1</jquery.version>
     </properties>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${thorntail.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>    
-        </dependencies>
-    </dependencyManagement>
     
     <dependencies>
         <!-- Database -->
@@ -40,6 +31,21 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
+        </dependency>
+        
+        <!-- Used in Websocket screens -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>Semantic-UI</artifactId>
+            <version>${semantic-ui.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
+            <scope>runtime</scope>
         </dependency>
         
         <!-- Testing -->
@@ -70,6 +76,7 @@
     <build>
         <plugins>
             
+            <!-- To run one test at a time (else port clash) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

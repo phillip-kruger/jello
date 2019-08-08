@@ -1,7 +1,10 @@
 package com.github.phillipkruger.jello;
 
+import com.github.phillipkruger.jello.adapter.LocalDateTimeAdapter;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +20,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,8 +39,8 @@ import lombok.NoArgsConstructor;
 public class Card implements Serializable {
     private static final long serialVersionUID = -8531040143398374446L;
     
-    public static final String QUERY_FIND_ALL = "Note.findAll";
-    public static final String QUERY_SEARCH_BY_TITLE = "Note.searchByTitle";
+    public static final String QUERY_FIND_ALL = "Card.findAll";
+    public static final String QUERY_SEARCH_BY_TITLE = "Card.searchByTitle";
     
     @Id
     @GeneratedValue
@@ -53,4 +57,15 @@ public class Card implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @XmlElementRef(type = Comment.class, required = false)
     private List<Comment> comments;
+    
+    @XmlAttribute(required=false)
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime created = LocalDateTime.now();
+    
+    @XmlAttribute(required=true)
+    private String createdBy;
+    
+    private Swimlane swimlane = Swimlane.pipeline;
+    
 }

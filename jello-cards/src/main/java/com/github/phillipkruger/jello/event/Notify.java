@@ -18,5 +18,5 @@ import javax.interceptor.InterceptorBinding;
 @Retention(RUNTIME)
 @Target({TYPE, METHOD})
 public @interface Notify {
-    @Nonbinding String value() default ""; 
+    @Nonbinding ChangeEventType value() default ChangeEventType.create; 
 }

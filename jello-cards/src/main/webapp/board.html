@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Jello board</title>
+
+        <link rel="stylesheet" type="text/css" href="webjars/Semantic-UI/2.4.1/semantic.min.css">
+        
+    </head>
+    
+    <body>
+        
+        <div class="ui main container">
+            <p/>
+            <h1 class="ui header">
+                <img src="/images/logo.png">
+                <div class="content">
+                    Jello Board
+                    <div class="sub header">Electronic sticky notes for your agile projects</div>
+                </div>
+            </h1>
+            
+            <div class="ui divider"></div>
+            
+            <div id="messages"></div>
+            
+            <div class="ui horizontal segments">
+                <div class="ui segment">
+                    <h2 class="ui header">Pipeline</h2>
+                    <div id="pipeline"></div>
+                </div>
+                <div class="ui segment">
+                    <h2 class="ui header">In Development</h2>
+                    <div id="development"></div>
+                </div>
+                <div class="ui segment">
+                    <h2 class="ui header">In Testing</h2>
+                    <div id="testing"></div>
+                </div>
+                <div class="ui segment">
+                    <h2 class="ui header">Ready for release</h2>
+                    <div id="release"></div>
+                </div>
+            </div>
+            
+            <div id="comments"></div>
+        </div>
+        
+        <script type="text/javascript" src="webjars/jquery/3.1.1/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+        
+        <script src="board.js"></script>
+        
+    </body>
+</html>
