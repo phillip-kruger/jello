@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+
+        <ui:composition template="/templates/layout.xhtml">
+            <ui:define name="content">
+            
+                <!-- Add new Card -->
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary btn-lg rounded-circle" data-toggle="modal" data-target="#addCardModal">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm">
+                        One of three columns
+                    </div>
+                    <div class="col-sm">
+                        One of three columns
+                    </div>
+                    <div class="col-sm">
+                        One of three columns
+                    </div>
+                    <div class="col-sm">
+                        One of three columns
+                    </div>
+                </div>
+                
+                
+                
+                <!-- Add Card Modal -->
+                <div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="addCardModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addCardModalLabel">#{i18n['create_card']}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <h:form>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="cardInputTitle">#{i18n['title']}</label>
+                                        <h:inputText id="cardInputTitle" 
+                                            value="#{cardController.newCard.title}" 
+                                            class="form-control" 
+                                            required="true" 
+                                            requiredMessage="#{i18n['title_required']}" 
+                                            pt:placeholder="#{i18n['title']}"></h:inputText>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cardInputDescription">#{i18n['description']}</label>
+                                        <h:inputText id="cardInputDescription" 
+                                            value="#{cardController.newCard.description}" 
+                                            class="form-control" 
+                                            required="true" 
+                                            requiredMessage="#{i18n['description_required']}" 
+                                            pt:placeholder="#{i18n['description']}"></h:inputText>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandLink action="#{cardController.addCard()}" 
+                                                   class="btn btn-primary"
+                                                   pt:data-dismiss="modal">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> #{i18n['create_card']}
+                                    </h:commandLink> 
+                                    
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+    
+</html>

@@ -23,6 +23,9 @@
         <!-- Javascript libraries -->
         <semantic-ui.version>2.4.1</semantic-ui.version>
         <jquery.version>3.1.1</jquery.version>
+        <bootstrap.version>4.3.1</bootstrap.version>
+        <font-awesome.version>4.7.0</font-awesome.version>
+        
     </properties>
     
     <dependencies>
@@ -40,13 +43,26 @@
             <version>${semantic-ui.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>jquery</artifactId>
             <version>${jquery.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Used in JSF screens -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${font-awesome.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
         
         <!-- Testing -->
         <dependency>

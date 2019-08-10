@@ -14,37 +14,26 @@
     <body>
         
         <div class="ui main container">
-            <p/>
-            <h1 class="ui header">
-                <img src="/images/logo.png">
-                <div class="content">
-                    Jello Board
-                    <div class="sub header">Electronic sticky notes for your agile projects</div>
-                </div>
-            </h1>
-            
-            <div class="ui divider"></div>
             
             <div id="messages"></div>
-            
-            <div class="ui horizontal segments">
-                <div class="ui segment">
-                    <h2 class="ui header">Pipeline</h2>
-                    <div id="pipeline"></div>
-                </div>
-                <div class="ui segment">
-                    <h2 class="ui header">In Development</h2>
-                    <div id="development"></div>
-                </div>
-                <div class="ui segment">
-                    <h2 class="ui header">In Testing</h2>
-                    <div id="testing"></div>
-                </div>
-                <div class="ui segment">
-                    <h2 class="ui header">Ready for release</h2>
-                    <div id="release"></div>
-                </div>
-            </div>
+            <table class="ui fixed line celled table">
+                <thead>
+                    <tr class="center aligned">
+                        <th><h2 class="ui header">Pipeline</h2></th>
+                        <th><h2 class="ui header">In Development</h2></th>
+                        <th><h2 class="ui header">In Testing</h2></th>
+                        <th><h2 class="ui header">Ready for release</h2></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="center aligned">
+                        <td class="top aligned"><div id="pipeline"></div></td>
+                        <td class="top aligned"><div id="development"></div></td>
+                        <td class="top aligned"><div id="testing"></div></td>
+                        <td class="top aligned"><div id="release"></div></td>
+                    </tr>
+                </tbody>
+            </table>
             
             <div id="comments"></div>
         </div>

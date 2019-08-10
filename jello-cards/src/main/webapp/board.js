@@ -118,7 +118,8 @@ function getNumberOfComments(card){
 }
 
 function writeCommentModal(card){
-    paintCommentModel("<div class='ui modal' id='comment_" + card.id + "'>"
+    if(card.hasOwnProperty('comments')){
+        paintCommentModel("<div class='ui modal' id='comment_" + card.id + "'>"
                         + "<i class='close icon'></i>"
                         + "<div class='header'>"
                             + "<i class='comment icon'></i>" + card.title
@@ -132,6 +133,7 @@ function writeCommentModal(card){
                         + "</div>"
                 
                     + "</div>");
+    }
 }
 
 function getCommentsHTML(comments){

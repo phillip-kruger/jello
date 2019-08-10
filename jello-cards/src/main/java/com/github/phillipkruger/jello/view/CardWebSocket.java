@@ -17,7 +17,6 @@ import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -52,12 +51,9 @@ public class CardWebSocket {
         sessions.add(session);
         log.log(Level.INFO, "Session joined [{0}]", session.getId());
         List<Card> cards = cardService.getAllCards();
-        log.severe(">>>>> number of cards:" + cards.size());
-        
         for(Card card : cards){
             sendCard(session,card);
         }
-        log.severe("<<<<<< done");
     }
 
     @OnClose
@@ -66,26 +62,26 @@ public class CardWebSocket {
         log.log(Level.INFO, "Session left [{0}]", session.getId());
     }
     
-    @OnMessage
-    public void onMessage(String message, Session session){
-        if(message!=null && "".equalsIgnoreCase(message)){
-            log.severe(">>>>>>>>>>>>>>>>>>>>>>>>>>> " + message);
-            //try {
-                //Note note = notesService.getNote(message);
-                //broadcastCard(session,card);
-            //} catch (NoteNotFoundException ex) {
-            //    Logger.getLogger(NotesSocket.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-        }
-    }
+//    @OnMessage
+//    public void onMessage(String message, Session session){
+//        if(message!=null && "".equalsIgnoreCase(message)){
+//            log.severe(">>>>>>>>>>>>>>>>>>>>>>>>>>> " + message);
+//            //try {
+//                //Note note = notesService.getNote(message);
+//                //broadcastCard(session,card);
+//            //} catch (NoteNotFoundException ex) {
+//            //    Logger.getLogger(NotesSocket.class.getName()).log(Level.SEVERE, null, ex);
+//            //}
+//        }
+//    }
     
-    private void broadcastCard(Session session,Card card){
-        Set<Session> openSessions = session.getOpenSessions();
-        openSessions.forEach((s) -> {
-            sendCard(s, card);
-        });
-        
-    }
+//    private void broadcastCard(Session session,Card card){
+//        Set<Session> openSessions = session.getOpenSessions();
+//        openSessions.forEach((s) -> {
+//            sendCard(s, card);
+//        });
+//        
+//    }
     
     private void sendCard(Session session,Card card){
         try {
