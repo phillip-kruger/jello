@@ -29,13 +29,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>faces/admin/index.xhtml</welcome-file>
+        <welcome-file>faces/jsf/index.xhtml</welcome-file>
     </welcome-file-list>
 
     <data-source>

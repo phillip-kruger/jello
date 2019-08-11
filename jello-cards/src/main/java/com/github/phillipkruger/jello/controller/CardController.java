@@ -39,7 +39,9 @@ public class CardController implements Serializable {
     private List<Card> cards = new ArrayList<>();
     
     @Getter @Setter
-    private Card card = new Card();
+    private Card newCard = new Card();
+    @Getter @Setter
+    private Card selectedCard;
     
     @Getter
     private final DashboardModel model = new DefaultDashboardModel();
@@ -47,7 +49,9 @@ public class CardController implements Serializable {
     private final DashboardColumn development = new DefaultDashboardColumn();
     private final DashboardColumn testing = new DefaultDashboardColumn();
     private final DashboardColumn release = new DefaultDashboardColumn();
-                
+    
+    
+    
     @PostConstruct
     public void init(){
         model.addColumn(pipeline);
@@ -55,32 +59,20 @@ public class CardController implements Serializable {
         model.addColumn(testing);
         model.addColumn(release);
         
-        refresh();
-    }
-    
-    public void refresh(){
-        this.card = new Card();
         this.cards = cardService.getAllCards();
+        
         for(Card c:cards){
-            if(c.getSwimlane().equals(Swimlane.development)){
-                development.addWidget("card_" + c.getId());
-            }else if(c.getSwimlane().equals(Swimlane.testing)){
-                testing.addWidget("card_" + c.getId());
-            }else if(c.getSwimlane().equals(Swimlane.release)){
-                release.addWidget("card_" + c.getId());
-            }else {
-                pipeline.addWidget("card_" + c.getId());
-            }
+            getCorrectColumn(c.getSwimlane()).addWidget("card_" + c.getId());
         }
     }
     
     public void addCard(){
-        card = cardService.createCard(card);
-        Long id = card.getId();
-        this.card = new Card();
-        this.cards = cardService.getAllCards();
+        Card c = cardService.createCard(newCard);
         
-        pipeline.addWidget("card_" + id);
+        this.newCard = new Card();
+        this.cards = cardService.getAllCards(); // ?
+        
+        pipeline.addWidget("card_" + c.getId());
     }
     
     public void handleReorder(DashboardReorderEvent event) {
@@ -88,34 +80,47 @@ public class CardController implements Serializable {
         Long cardId = getCardId(event.getWidgetId());
         Card c = changeLanes(cardId,swimlane);
         
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Updated", "Card :'" + c.getTitle() + "'");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Moved", "Card :'" + c.getTitle() + "'");
         addMessage(message);
     }
     
-    public void handleClose(CloseEvent event) {
-        Long cardId = getCardId(event.getComponent().getId());
-        Card c = cardService.removeCard(cardId);
-        
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted", "Card :'" + c.getTitle() + "'");
-        addMessage(message);
+    public void handleDialogClose(CloseEvent event) {
+        this.newCard = new Card();
+        this.selectedCard = null;
     }
     
     public void viewCommentsDialog(Card c){
-        this.card = c;
+        this.selectedCard = c;
         PrimeFaces current = PrimeFaces.current();
         current.executeScript("PF('viewCommentsDialog').show();");
     }
     
+    public void deleteCardDialog(Card c){
+        this.selectedCard = c;
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('deleteCardDialog').show();");
+    }
+    
+     public void deleteCard(){
+        getCorrectColumn(selectedCard.getSwimlane()).removeWidget("card_" + selectedCard.getId());
+        String title = selectedCard.getTitle();
+        cardService.removeCard(selectedCard);
+        this.selectedCard = null;
+        this.cards = cardService.getAllCards();
+        
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted", "Card :'" + title + "'");
+        addMessage(message);
+    }
+            
     public void editCardDialog(Card c){
-        this.card = c;
+        this.selectedCard = c;
         PrimeFaces current = PrimeFaces.current();
         current.executeScript("PF('editCardDialog').show();");
     }
     
     public void editCard(){
-        card = cardService.updateCard(card);
-        String title = card.getTitle();
-        this.card = new Card();
+        String title = cardService.updateCard(selectedCard).getTitle();
+        this.selectedCard = null;
         this.cards = cardService.getAllCards();
         
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Updated", "Card :'" + title + "'");
@@ -141,5 +146,17 @@ public class CardController implements Serializable {
     
     private Long getCardId(String widgetId){
         return Long.valueOf(widgetId.split("_")[1]);
+    }
+    
+    private DashboardColumn getCorrectColumn(Swimlane swimlane){
+        if(swimlane.equals(Swimlane.development)){
+            return development;
+        }else if(swimlane.equals(Swimlane.testing)){
+            return testing;
+        }else if(swimlane.equals(Swimlane.release)){
+            return release;
+        }else {
+            return pipeline;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.github.phillipkruger.jello.api;
 import com.github.javafaker.Faker;
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.Comment;
+import com.github.phillipkruger.jello.Swimlane;
 import com.github.phillipkruger.jello.adapter.LocalDateTimeAdapter;
 import com.github.phillipkruger.jello.service.CardService;
 import java.io.File;
@@ -41,7 +42,7 @@ public class TestHelper {
         card.setTitle(FAKER.funnyName().name());
         card.setDescription(FAKER.lorem().paragraph(2));
         card.setComments(createRandomComments());
-        
+        card.setSwimlane(Swimlane.pipeline);
         return card;
     }
     

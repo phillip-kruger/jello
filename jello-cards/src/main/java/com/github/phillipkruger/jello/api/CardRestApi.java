@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import lombok.extern.java.Log;
 
 /**
  * Basic REST API for Cards
@@ -25,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 @Path("/card")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Log
 public class CardRestApi {
 
     @Inject
@@ -56,7 +58,8 @@ public class CardRestApi {
     @DELETE
     @Path("/{id}")
     public Response removeCard(@PathParam("id") Long id){
-        cardService.removeCard(id);
+        Card card = cardService.getCard(id);
+        if(card!=null)cardService.removeCard(card);
         return Response.noContent().build();
     }
     

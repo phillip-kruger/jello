@@ -39,6 +39,7 @@ public class CardSoapApi implements CardApi {
     @WebMethod
     @Override
     public void removeCard(@WebParam Long id){
-        cardService.removeCard(id);
+        Card card = getCard(id);
+        if(card!=null)cardService.removeCard(card);
     }
 }

@@ -111,12 +111,7 @@
             </activation>
             
             <dependencies>
-                <!-- JAX-RS -->
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>jaxrs</artifactId>
-                    <scope>test</scope>
-                </dependency>
+                <!-- Rest client used in the test cases -->
                 <dependency>
                     <groupId>org.jboss.resteasy</groupId>
                     <artifactId>resteasy-client</artifactId>
@@ -125,35 +120,6 @@
                 <dependency>
                     <groupId>org.jboss.resteasy</groupId>
                     <artifactId>resteasy-json-binding-provider</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <!-- JPA -->
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>jpa</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <!-- Transaction -->
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>transactions</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <!-- SOAP -->
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>webservices</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <!-- CDI -->
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>cdi</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>spi</artifactId>
                     <scope>test</scope>
                 </dependency>
                 
@@ -193,6 +159,9 @@
                                 </goals>
                                 <configuration>
                                     <fractionDetectMode>when_missing</fractionDetectMode>
+<!--                                    <properties>
+                                        <thorntail.port.offset>100</thorntail.port.offset>
+                                    </properties>-->
                                 </configuration>
                             </execution>
                         </executions>

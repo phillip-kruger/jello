@@ -35,7 +35,6 @@ public class CardService {
         return card;
     }
     
-    @Notify(ChangeEventType.retrieve)
     public Card getCard(@NotNull @Min(value = 0L) Long id) {
         return em.find(Card.class, id);
     }
@@ -50,13 +49,12 @@ public class CardService {
 
     @Notify(ChangeEventType.delete)
     @Transactional
-    public Card removeCard(@NotNull @Min(value = 0L) Long id) {
-        Card card = getCard(id);
+    public void removeCard(@NotNull Card card) {
+        if (!em.contains(card))card = em.merge(card);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", JsonbBuilder.create().toJson(card));
-        return card;
     }
-
+    
     @Notify(ChangeEventType.update)
     @Transactional
     public Card updateCard(@NotNull Card card) {

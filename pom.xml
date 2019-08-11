@@ -122,7 +122,6 @@
     
     <modules>
         <module>jello-cards</module>
-        <module>jello-online-log</module>
     </modules>
     
 </project>

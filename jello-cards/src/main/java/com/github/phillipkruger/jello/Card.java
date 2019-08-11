@@ -44,8 +44,7 @@ public class Card implements Serializable {
     public static final String QUERY_SEARCH_BY_TITLE = "Card.searchByTitle";
     public static final String QUERY_FIND_ALL_IN_SWIMLANE = "Card.findAllInSwimlane";
     
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     @XmlAttribute(required=true)
     private Long id;
     
