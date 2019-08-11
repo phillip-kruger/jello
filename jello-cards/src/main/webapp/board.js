@@ -77,20 +77,22 @@ function removeCard(id){
 function writeCard(card){
     sessionStorage[card.id] = JSON.stringify(card);
     writeCommentModal(card);
-    paintCard("<div class='ui raised card' id='card_" + card.id +"'>"
+    paintCard("<div class='ui raised fluid card' id='card_" + card.id +"'>"
                     + "<div class='content'>"
-                        + "<div class='header'>" + card.title + "</div>"
-                        + "<div class='meta'>"
+                        + "<div class='left aligned header'>" + card.title + "</div>"
+                        + "<div class='left aligned meta'>"
                             + "<span class='date'>" 
                                 + new Date(card.created).toDateString() 
                             + "</span>"
                         + "</div>" 
-                        + "<div class='description'>" 
+                        + "<div class='left aligned description'>" 
                             + card.description + "<br/>"
                         + "</div>"
-                        + "<p><i class='comment icon' onclick='showComments(" + card.id +");'></i>" + getNumberOfComments(card) + " comments</p>"
                     + "</div>"
                     + "<div class='extra content'>"
+                        + "<div class='left floated'>"
+                            + "<p><i class='comment icon' onclick='showComments(" + card.id +");'></i>" + getNumberOfComments(card) + " comments</p>"
+                        + "</div>"
                         + "<div class='right floated author'>"
                             + "<img class='ui avatar image' src='/images/avatars/" + card.createdBy + ".jpg'> " + card.createdBy
                         + "</div>"

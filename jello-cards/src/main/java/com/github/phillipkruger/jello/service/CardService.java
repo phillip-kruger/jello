@@ -1,6 +1,7 @@
 package com.github.phillipkruger.jello.service;
 
 import com.github.phillipkruger.jello.Card;
+import com.github.phillipkruger.jello.Swimlane;
 import com.github.phillipkruger.jello.event.ChangeEventType;
 import com.github.phillipkruger.jello.event.Notify;
 import java.util.List;
@@ -66,5 +67,13 @@ public class CardService {
     
     public List<Card> getAllCards() {
         return em.createNamedQuery(Card.QUERY_FIND_ALL, Card.class).getResultList();
+    }
+
+    public List<Card> getAllCardsInSwimlane(Swimlane swimlane) {
+        List<Card> cards = (List<Card>)em.createNamedQuery(Card.QUERY_FIND_ALL_IN_SWIMLANE,Card.class)
+					.setParameter("swimlane", swimlane)
+					.getResultList();
+        
+        return cards;
     }
 }

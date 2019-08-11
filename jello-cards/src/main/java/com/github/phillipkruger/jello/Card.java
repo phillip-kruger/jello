@@ -33,7 +33,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NamedQueries({
     @NamedQuery(name = Card.QUERY_FIND_ALL, query = "SELECT c FROM Card c"),
-    @NamedQuery(name = Card.QUERY_SEARCH_BY_TITLE, query = "SELECT c FROM Card c WHERE c.title=:title")
+    @NamedQuery(name = Card.QUERY_SEARCH_BY_TITLE, query = "SELECT c FROM Card c WHERE c.title=:title"),
+    @NamedQuery(name = Card.QUERY_FIND_ALL_IN_SWIMLANE, query = "SELECT c FROM Card c WHERE c.swimlane=:swimlane")
 })
 @XmlRootElement @XmlAccessorType(XmlAccessType.FIELD)
 public class Card implements Serializable {
@@ -41,6 +42,7 @@ public class Card implements Serializable {
     
     public static final String QUERY_FIND_ALL = "Card.findAll";
     public static final String QUERY_SEARCH_BY_TITLE = "Card.searchByTitle";
+    public static final String QUERY_FIND_ALL_IN_SWIMLANE = "Card.findAllInSwimlane";
     
     @Id
     @GeneratedValue
@@ -67,5 +69,10 @@ public class Card implements Serializable {
     private String createdBy;
     
     private Swimlane swimlane = Swimlane.pipeline;
+    
+    public int getNumberOfComments(){
+        if(this.comments==null || this.comments.isEmpty())return 0;
+        return this.comments.size();
+    }
     
 }

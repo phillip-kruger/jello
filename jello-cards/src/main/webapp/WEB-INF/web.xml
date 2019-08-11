@@ -13,6 +13,16 @@
         <param-value>Development</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>nova-dark</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -25,7 +35,7 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>faces/admin/index.xhtml</welcome-file>
     </welcome-file-list>
 
     <data-source>
