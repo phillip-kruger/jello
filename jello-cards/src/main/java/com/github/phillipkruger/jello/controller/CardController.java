@@ -40,6 +40,7 @@ public class CardController implements Serializable {
     
     @Getter @Setter
     private Card newCard = new Card();
+    
     @Getter @Setter
     private Card selectedCard;
     
@@ -80,8 +81,8 @@ public class CardController implements Serializable {
         Long cardId = getCardId(event.getWidgetId());
         Card c = changeLanes(cardId,swimlane);
         
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Moved", "Card :'" + c.getTitle() + "'");
-        addMessage(message);
+        addMessage("moved_card",c.getTitle());
+        
     }
     
     public void handleDialogClose(CloseEvent event) {
@@ -91,14 +92,12 @@ public class CardController implements Serializable {
     
     public void viewCommentsDialog(Card c){
         this.selectedCard = c;
-        PrimeFaces current = PrimeFaces.current();
-        current.executeScript("PF('viewCommentsDialog').show();");
+        showDialog("viewCommentsDialog");
     }
     
     public void deleteCardDialog(Card c){
         this.selectedCard = c;
-        PrimeFaces current = PrimeFaces.current();
-        current.executeScript("PF('deleteCardDialog').show();");
+        showDialog("deleteCardDialog");
     }
     
      public void deleteCard(){
@@ -108,14 +107,12 @@ public class CardController implements Serializable {
         this.selectedCard = null;
         this.cards = cardService.getAllCards();
         
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted", "Card :'" + title + "'");
-        addMessage(message);
+        addMessage("deleted_card",title);
     }
             
     public void editCardDialog(Card c){
         this.selectedCard = c;
-        PrimeFaces current = PrimeFaces.current();
-        current.executeScript("PF('editCardDialog').show();");
+        showDialog("editCardDialog");
     }
     
     public void editCard(){
@@ -123,12 +120,12 @@ public class CardController implements Serializable {
         this.selectedCard = null;
         this.cards = cardService.getAllCards();
         
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Updated", "Card :'" + title + "'");
-        addMessage(message);
+        addMessage("updated_card",title);
     }
     
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    private void showDialog(String dialogId){
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('" + dialogId + "').show();");
     }
     
     private Card changeLanes(Long cardId, Swimlane newLane){
@@ -159,4 +156,21 @@ public class CardController implements Serializable {
             return pipeline;
         }
     }
+    
+    private void addMessage(String titleKey,String message){
+        String title = getI18n(titleKey);
+        
+        FacesMessage facesmessage = new FacesMessage(FacesMessage.SEVERITY_INFO, title, message);
+        addMessage(facesmessage);
+    }
+    
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    private String getI18n(String key){
+        FacesContext context = FacesContext.getCurrentInstance();
+        return context.getApplication().evaluateExpressionGet(context, "#{i18n['" + key + "']}", String.class);
+    }
+    
 }

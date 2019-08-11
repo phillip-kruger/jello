@@ -7,7 +7,7 @@
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
      
     <h:head>
-        <title>Jello</title>
+        <title>#{i18n['heading']}</title>
     </h:head>
  
     <h:body id="body">
@@ -22,28 +22,47 @@
             .ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
                 text-align: center;
             }
+            
         </style>
         
-        <p:panelGrid columns="4" layout="grid">            
-
-            <h:panelGroup layout="block">
-                <h2><i class="fa fa-fw fa-list-ol"></i> Pipeline</h2>
-            </h:panelGroup>
-            <h:panelGroup layout="block">
-                <h2><i class="fa fa-fw fa-code"></i> Development</h2>
-            </h:panelGroup>
-            <h:panelGroup layout="block">
-                <h2><i class="fa fa-fw fa-check-square-o"></i> Testing</h2>
-            </h:panelGroup>
-            <h:panelGroup layout="block">
-                <h2><i class="fa fa-fw fa-cloud-upload"></i> Release</h2>
-            </h:panelGroup>
-
-        </p:panelGrid>
-
+        <p:growl id="growl" showDetail="true" />
+        
         <h:panelGroup layout="block" id="main">
-            <p:growl id="growl" showDetail="true" />
-            
+            <h:form>  
+
+                <p:menubar>
+                    <p:menuitem value="#{i18n['home']}" url="/" icon="pi pi-home" />
+                    <p:menuitem value="#{i18n['create']}" url="javascript:void(0)" icon="pi pi-plus" onclick="PF('addCardDialog').show();"/>
+
+                    <p:submenu label="#{i18n['language']}" icon="pi pi-globe">
+                        <p:menuitem value="#{i18n['afrikaans']}" action="#{languageController.change('af')}" update="main"/>
+                        <p:menuitem value="#{i18n['english']}" action="#{languageController.change('en')}" update="main"/>
+                        <p:menuitem value="#{i18n['hindi']}" action="#{languageController.change('hi')}" update="main"/>
+                    </p:submenu>
+
+                    <f:facet name="options">
+                        <p:commandButton type="button" value="#{i18n['logout']}" icon="pi pi-power-off" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+
+            <p:panelGrid columns="4" layout="grid" styleClass="ui-noborder">            
+
+                <h:panelGroup layout="block">
+                    <h2><i class="fa fa-fw fa-list-ol"></i> <h:outputText value="#{i18n['pipeline']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block">
+                    <h2><i class="fa fa-fw fa-code"></i> <h:outputText value="#{i18n['development']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block">
+                    <h2><i class="fa fa-fw fa-check-square-o"></i> <h:outputText value="#{i18n['testing']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block">
+                    <h2><i class="fa fa-fw fa-cloud-upload"></i> <h:outputText value="#{i18n['release']}"/></h2>
+                </h:panelGroup>
+
+            </p:panelGrid>
+
             <h:form>
                 <p:dashboard id="board" model="#{cardController.model}">
                     <p:ajax event="reorder" listener="#{cardController.handleReorder}" update="growl" />
@@ -51,6 +70,8 @@
                     <c:forEach var="card" items="#{cardController.cards}">
                         
                         <p:panel id="card_#{card.id}" header="#{card.title}">
+                            
+                            
                             <h:panelGrid style="width:100%">
                                 <p:row>
                                     <p:column colspan="3">
@@ -60,6 +81,8 @@
                                     </p:column>
                                 </p:row>
                                 
+                                <br/>
+                                
                                 <p:row>
                                     <p:column colspan="3">
                                         <p>
@@ -68,16 +91,24 @@
                                     </p:column>
                                 </p:row>
 
+                                <br/>
                                 <p:row>
                                     <p:column colspan="3">
                                         <p:menubar>
-                                            <p:menuitem value="Delete" action="#{cardController.deleteCardDialog(card)}" icon="pi pi-times" update="main"/>
-                                            <p:menuitem value="Edit" action="#{cardController.editCardDialog(card)}" icon="pi pi-pencil" update="main"/>
-                                            <p:menuitem value="#{card.numberOfComments} comments" action="#{cardController.viewCommentsDialog(card)}" icon="pi pi-comment" update="main"/>
+                                            <p:menuitem value="#{card.numberOfComments} #{i18n['comments']}" action="#{cardController.viewCommentsDialog(card)}" icon="pi pi-comment" update="main"/>
                                         </p:menubar>
                                     </p:column>
                                 </p:row>
                             </h:panelGrid>
+                            
+                            <f:facet name="actions">
+                                <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.deleteCardDialog(card)}">
+                                    <h:outputText styleClass="ui-icon pi pi-times" title="#{i18n['delete']}"/>
+                                </h:commandLink>
+                                <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.editCardDialog(card)}">
+                                    <h:outputText styleClass="ui-icon pi pi-pencil" title="#{i18n['edit']}"/>
+                                </h:commandLink>
+                            </f:facet>
                         </p:panel>
                         
                     </c:forEach>
@@ -88,41 +119,37 @@
 
             <!-- Add card dialog -->
             <h:form>
-                <h:outputLink value="javascript:void(0)" onclick="PF('addCardDialog').show();" title="addCardDialog">
-                    <i class="pi pi-plus-circle pull-right" style="font-size: 4em"></i>
-                </h:outputLink>
-
-                <p:dialog id="addCardDialog" header="Add Card" widgetVar="addCardDialog" modal="true" draggable="true" >
+                <p:dialog id="addCardDialog" header="#{i18n['create_card']}" widgetVar="addCardDialog" modal="true" draggable="true" >
                     <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
                     
                     <p:panelGrid id="idPanelAddCard" styleClass="ui-noborder">
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="addCardTitle" value="Title:" />
+                                <p:outputLabel for="addCardTitle" value="#{i18n['title']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:inputText  id="addCardTitle" 
                                               value="#{cardController.newCard.title}" 
                                               pt:required="true" 
-                                              label="Title"/>
+                                              label="#{i18n['title']}"/>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="addCardDescription" value="Description:" />
+                                <p:outputLabel for="addCardDescription" value="#{i18n['description']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:inputTextarea id="addCardDescription" 
                                                  value="#{cardController.newCard.description}" 
                                                  pt:required="true" 
-                                                 label="Description" 
+                                                 label="#{i18n['description']}" 
                                                  cols="40" 
                                                  rows="10"/>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
 
-                    <p:commandButton value="Add Card" update="main" action="#{cardController.addCard()}"
+                    <p:commandButton value="#{i18n['create_card']}" update="main" action="#{cardController.addCard()}"
                                          oncomplete="PF('addCardDialog').hide();" style="float:right;" />
 
                 </p:dialog>  
@@ -130,50 +157,50 @@
             
             <!-- Edit dialog -->
             <h:form>
-                <p:dialog id="editCardDialog" header="Edit #{cardController.selectedCard.title}" widgetVar="editCardDialog" modal="true" draggable="true">
+                <p:dialog id="editCardDialog" header="#{i18n['edit']} #{cardController.selectedCard.title}" widgetVar="editCardDialog" modal="true" draggable="true">
                     <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
                     <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="editCardTitle" value="Title:" />
+                                <p:outputLabel for="editCardTitle" value="#{i18n['title']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:inputText  id="editCardTitle" 
                                               value="#{cardController.selectedCard.title}" 
                                               pt:required="true" 
-                                              label="Title"/>
+                                              label="#{i18n['title']}"/>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="editCardDescription" value="Description:" />
+                                <p:outputLabel for="editCardDescription" value="#{i18n['description']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:inputTextarea id="editCardDescription" 
                                                  value="#{cardController.selectedCard.description}" 
                                                  pt:required="true" 
-                                                 label="Description" 
+                                                 label="#{i18n['description']}" 
                                                  cols="40" 
                                                  rows="10"/>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
                     
-                    <p:commandButton value="Edit Card" update="main" action="#{cardController.editCard()}"
+                    <p:commandButton value="#{i18n['edit_card']}" update="main" action="#{cardController.editCard()}"
                                              oncomplete="PF('editCardDialog').hide();" style="float:right;" />
                 </p:dialog>
             </h:form>
             
             <!-- Delete Dialog -->
             <h:form>
-                <p:dialog id="deleteCardDialog" header="Delete #{cardController.selectedCard.title}" widgetVar="deleteCardDialog" modal="true" draggable="true">
+                <p:dialog id="deleteCardDialog" header="#{i18n['delete']} #{cardController.selectedCard.title}" widgetVar="deleteCardDialog" modal="true" draggable="true">
                     <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
                     <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="deleteCardTitle" value="Title:" />
+                                <p:outputLabel for="deleteCardTitle" value="#{i18n['title']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:outputLabel id="deleteCardTitle" value="#{cardController.selectedCard.title}" />
@@ -181,7 +208,7 @@
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="deleteCardDescription" value="Description:" />
+                                <p:outputLabel for="deleteCardDescription" value="#{i18n['description']}:" />
                             </p:column>
                             <p:column colspan="3">
                                 <p:outputLabel id="deleteCardDescription" value="#{cardController.selectedCard.description}" />
@@ -189,14 +216,14 @@
                         </p:row>
                     </p:panelGrid>
                     
-                    <p:commandButton value="Delete Card" update="main" action="#{cardController.deleteCard()}"
+                    <p:commandButton value="#{i18n['delete_card']}" update="main" action="#{cardController.deleteCard()}"
                                              oncomplete="PF('confirmDeleteDialog').hide();" style="float:right;" />
                 </p:dialog>
             </h:form>
             
             <!-- View comments -->
             <h:form>
-                <p:dialog id="viewCommentsDialog" header="Comments on #{cardController.selectedCard.title}" widgetVar="viewCommentsDialog" modal="true" draggable="true">
+                <p:dialog id="viewCommentsDialog" header="#{i18n['comments_on']} #{cardController.selectedCard.title}" widgetVar="viewCommentsDialog" modal="true" draggable="true">
                     <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
                     <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
                         <ui:repeat value="#{cardController.selectedCard.comments}" var="comment">
