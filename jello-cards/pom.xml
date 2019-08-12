@@ -20,6 +20,11 @@
         <h2.version>1.4.199</h2.version>
         <surefire.version>2.22.1</surefire.version>
         
+        <!-- JSF libraries -->
+        <primefaces.version>7.0</primefaces.version>
+        <primefaces-extensions.version>7.0.1</primefaces-extensions.version>
+        <adminfaces.version>1.0.2</adminfaces.version>
+        
         <!-- Javascript libraries -->
         <semantic-ui.version>2.4.1</semantic-ui.version>
         <jquery.version>3.1.1</jquery.version>
@@ -51,18 +56,18 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>7.0</version>
+            <version>${primefaces.version}</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>org.primefaces.extensions</groupId>
-            <artifactId>all-themes</artifactId>
-            <version>1.0.8</version>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>${primefaces-extensions.version}</version>
             <scope>runtime</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-theme</artifactId>
-            <version>1.0.2</version>
+            <version>${adminfaces.version}</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Testing -->
