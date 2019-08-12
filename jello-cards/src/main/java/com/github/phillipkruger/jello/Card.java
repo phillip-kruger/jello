@@ -3,6 +3,7 @@ package com.github.phillipkruger.jello;
 import com.github.phillipkruger.jello.adapter.LocalDateTimeAdapter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.CascadeType;
@@ -55,7 +56,7 @@ public class Card implements Serializable {
     @XmlAttribute(required=false)
     private String description;
     
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @XmlElementRef(type = Comment.class, required = false)
     private List<Comment> comments;
     
@@ -74,4 +75,8 @@ public class Card implements Serializable {
         return this.comments.size();
     }
     
+    public void addComment(Comment comment){
+        if(comments==null)comments = new ArrayList<>();
+        comments.add(comment);
+    }
 }

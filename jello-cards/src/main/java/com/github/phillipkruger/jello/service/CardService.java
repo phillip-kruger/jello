@@ -59,6 +59,7 @@ public class CardService {
     @Transactional
     public Card updateCard(@NotNull Card card) {
         card = em.merge(card);
+        //em.flush();
         log.log(Level.INFO, "Updated card [{0}]", JsonbBuilder.create().toJson(card));
         return card;
     }

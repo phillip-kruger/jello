@@ -1,6 +1,7 @@
 package com.github.phillipkruger.jello.controller;
 
 import com.github.phillipkruger.jello.Card;
+import com.github.phillipkruger.jello.Comment;
 import com.github.phillipkruger.jello.Swimlane;
 import com.github.phillipkruger.jello.service.CardService;
 import java.io.Serializable;
@@ -39,7 +40,10 @@ public class CardController implements Serializable {
     private List<Card> cards = new ArrayList<>();
     
     @Getter @Setter
-    private Card newCard = new Card();
+    private Card newCard;
+    
+    @Getter @Setter
+    private Comment newComment;
     
     @Getter @Setter
     private Card selectedCard;
@@ -50,8 +54,6 @@ public class CardController implements Serializable {
     private final DashboardColumn development = new DefaultDashboardColumn();
     private final DashboardColumn testing = new DefaultDashboardColumn();
     private final DashboardColumn release = new DefaultDashboardColumn();
-    
-    
     
     @PostConstruct
     public void init(){
@@ -67,49 +69,21 @@ public class CardController implements Serializable {
         }
     }
     
+    // Create
+    public void viewCreateDialog(){
+        reset();
+        this.newCard = new Card();
+        showDialog("addCardDialog");
+    }
+    
     public void addCard(){
         Card c = cardService.createCard(newCard);
-        
-        this.newCard = new Card();
-        this.cards = cardService.getAllCards(); // ?
-        
+        reset();
+        this.cards.add(c);
         pipeline.addWidget("card_" + c.getId());
     }
     
-    public void handleReorder(DashboardReorderEvent event) {
-        Swimlane swimlane = getSwimlane(event.getColumnIndex());
-        Long cardId = getCardId(event.getWidgetId());
-        Card c = changeLanes(cardId,swimlane);
-        
-        addMessage("moved_card",c.getTitle());
-        
-    }
-    
-    public void handleDialogClose(CloseEvent event) {
-        this.newCard = new Card();
-        this.selectedCard = null;
-    }
-    
-    public void viewCommentsDialog(Card c){
-        this.selectedCard = c;
-        showDialog("viewCommentsDialog");
-    }
-    
-    public void deleteCardDialog(Card c){
-        this.selectedCard = c;
-        showDialog("deleteCardDialog");
-    }
-    
-     public void deleteCard(){
-        getCorrectColumn(selectedCard.getSwimlane()).removeWidget("card_" + selectedCard.getId());
-        String title = selectedCard.getTitle();
-        cardService.removeCard(selectedCard);
-        this.selectedCard = null;
-        this.cards = cardService.getAllCards();
-        
-        addMessage("deleted_card",title);
-    }
-            
+    // Edit
     public void editCardDialog(Card c){
         this.selectedCard = c;
         showDialog("editCardDialog");
@@ -118,9 +92,58 @@ public class CardController implements Serializable {
     public void editCard(){
         String title = cardService.updateCard(selectedCard).getTitle();
         this.selectedCard = null;
-        this.cards = cardService.getAllCards();
         
         addMessage("updated_card",title);
+    }
+    
+    // Update (lane)
+    public void handleReorder(DashboardReorderEvent event) {
+        Swimlane swimlane = getSwimlane(event.getColumnIndex());
+        Long cardId = getCardId(event.getWidgetId());
+        Card c = changeLanes(cardId,swimlane);
+        
+        addMessage("moved_card",c.getTitle());
+    }
+    
+    // Update (comments)
+    public void viewCommentsDialog(Card c){
+        this.selectedCard = c;
+        this.newComment = new Comment();
+        showDialog("viewCommentsDialog");
+    }
+    
+    public void addComment(){
+        selectedCard.addComment(newComment);
+        cardService.updateCard(selectedCard).getTitle();
+        String comment = newComment.getComment();
+        reset();
+        addMessage("comment_added",comment);
+    }
+    
+    // Delete
+    public void deleteCardDialog(Card c){
+        this.selectedCard = c;
+        showDialog("deleteCardDialog");
+    }
+    
+     public void deleteCard(){
+        this.cards.remove(selectedCard);
+        String title = selectedCard.getTitle();
+        cardService.removeCard(selectedCard);
+        reset();
+
+        addMessage("deleted_card",title);
+    }
+    
+    // Cancel dialog 
+    public void handleDialogClose(CloseEvent event) {
+        reset();
+    }
+    
+    private void reset(){
+        this.newCard = null;
+        this.newComment = null;
+        this.selectedCard = null;
     }
     
     private void showDialog(String dialogId){
@@ -159,13 +182,12 @@ public class CardController implements Serializable {
     
     private void addMessage(String titleKey,String message){
         String title = getI18n(titleKey);
-        
         FacesMessage facesmessage = new FacesMessage(FacesMessage.SEVERITY_INFO, title, message);
         addMessage(facesmessage);
     }
     
     private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage("growl", message);
     }
     
     private String getI18n(String key){
