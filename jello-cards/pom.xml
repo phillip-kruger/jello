@@ -25,10 +25,6 @@
         <primefaces-extensions.version>7.0.1</primefaces-extensions.version>
         <adminfaces.version>1.0.2</adminfaces.version>
         
-        <!-- Javascript libraries -->
-        <semantic-ui.version>2.4.1</semantic-ui.version>
-        <jquery.version>3.1.1</jquery.version>
-        
     </properties>
     
     <dependencies>
@@ -39,19 +35,6 @@
             <version>${h2.version}</version>
         </dependency>
         
-        <!-- Used in Websocket screens -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>Semantic-UI</artifactId>
-            <version>${semantic-ui.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bower</groupId>
-            <artifactId>jquery</artifactId>
-            <version>${jquery.version}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!-- Used in JSF screens -->
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -70,6 +53,7 @@
             <version>${adminfaces.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
         <!-- Testing -->
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>

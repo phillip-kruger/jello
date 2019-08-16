@@ -122,6 +122,7 @@
     
     <modules>
         <module>jello-cards</module>
+        <module>jello-audit</module>
     </modules>
     
 </project>

@@ -4,6 +4,7 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+
     <application>
    	<locale-config>
      	    <default-locale>en</default-locale>
@@ -14,6 +15,7 @@
             <base-name>resources</base-name>
             <var>i18n</var>
 	</resource-bundle>   
+        
      </application>
     
 </faces-config>

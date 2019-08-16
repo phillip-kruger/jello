@@ -1,23 +1,22 @@
-package com.github.phillipkruger.jello.view;
+package com.github.phillipkruger.jello.audit;
 
-import com.github.phillipkruger.jello.Card;
 import javax.json.bind.JsonbBuilder;
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 /**
- * Encoder that can encode Card to be streamed over WebSockets
+ * Encoder that can encode AuditEntry to be streamed over WebSockets
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
-public class CardEncoder implements Encoder.Text<Card> {
+public class AuditEntryEncoder implements Encoder.Text<AuditEntry> {
 
     @Override
     public void init(EndpointConfig config) {}
 
     @Override
-    public String encode(Card card) throws EncodeException {
-        return JsonbBuilder.create().toJson(card);
+    public String encode(AuditEntry auditEntry) throws EncodeException {
+        return JsonbBuilder.create().toJson(auditEntry);
     }
     
     @Override

@@ -1,4 +1,4 @@
-package com.github.phillipkruger.jello.view;
+package com.github.phillipkruger.jello.audit;
 
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.event.ChangeEvent;
@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
@@ -29,8 +28,8 @@ import lombok.extern.java.Log;
 @Log
 @Startup
 @Singleton
-@ServerEndpoint(value = "/card",encoders = {CardEncoder.class,ChangeEventEncoder.class})
-public class CardWebSocket {
+@ServerEndpoint(value = "/audit",encoders = {AuditEntryEncoder.class})
+public class AuditWebSocket {
     
     private final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
             
@@ -42,8 +41,9 @@ public class CardWebSocket {
         log.info("Jello board websocket ready");
     }
     
-    public void changeEvent(@ObservesAsync ChangeEvent changeEvent){
-        broadcastChangeEvent(sessions, changeEvent);
+    public void createAuditEntry(AuditEntry auditEntry){
+        print(auditEntry);
+        broadcast(sessions, auditEntry);
     }
     
     @OnOpen
@@ -62,27 +62,6 @@ public class CardWebSocket {
         log.log(Level.INFO, "Session left [{0}]", session.getId());
     }
     
-//    @OnMessage
-//    public void onMessage(String message, Session session){
-//        if(message!=null && "".equalsIgnoreCase(message)){
-//            log.severe(">>>>>>>>>>>>>>>>>>>>>>>>>>> " + message);
-//            //try {
-//                //Note note = notesService.getNote(message);
-//                //broadcastCard(session,card);
-//            //} catch (NoteNotFoundException ex) {
-//            //    Logger.getLogger(NotesSocket.class.getName()).log(Level.SEVERE, null, ex);
-//            //}
-//        }
-//    }
-    
-//    private void broadcastCard(Session session,Card card){
-//        Set<Session> openSessions = session.getOpenSessions();
-//        openSessions.forEach((s) -> {
-//            sendCard(s, card);
-//        });
-//        
-//    }
-    
     private void sendCard(Session session,Card card){
         try {
             if (session.isOpen()){
@@ -94,19 +73,23 @@ public class CardWebSocket {
         }
     }
     
-    private void broadcastChangeEvent(Set<Session> sessions,ChangeEvent changeEvent){
+    private void broadcast(Set<Session> sessions,AuditEntry auditEntry){
         sessions.forEach((s) -> {
-            sendChangeEvent(s, changeEvent);
+            send(s, auditEntry);
         });
     }
     
-    private void sendChangeEvent(Session session,ChangeEvent changeEvent){
+    private void send(Session session,AuditEntry auditEntry){
         try {
             if (session.isOpen()){
-                session.getBasicRemote().sendObject(changeEvent);
+                session.getBasicRemote().sendObject(auditEntry);
             }
         } catch (IOException | EncodeException  ex){
             log.log(Level.SEVERE, null, ex);
         }
     }   
+    
+    private void print(AuditEntry auditEntry){        
+        log.log(Level.INFO, "(WS) AUDIT: {0}", auditEntry);
+    }
 }
