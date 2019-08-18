@@ -1,7 +1,5 @@
-package com.github.phillipkruger.jello.queue;
+package com.github.phillipkruger.jello.audit;
 
-import com.github.phillipkruger.jello.audit.AuditEntry;
-import com.github.phillipkruger.jello.audit.AuditWebSocket;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +33,7 @@ public class CardQueueConsumer implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
+        
         try {
             String action = message.getStringProperty(ACTION_PROPERTY);
             String body = message.getBody(String.class);
@@ -42,6 +41,7 @@ public class CardQueueConsumer implements MessageListener {
             JsonObject jsonObject = getJsonObject(body);
             AuditEntry auditEntry = toAuditEntry(action, jsonObject);
             auditWebSocket.createAuditEntry(auditEntry);
+            
         } catch (JMSException ex) {
             throw new RuntimeException(ex);
         }
