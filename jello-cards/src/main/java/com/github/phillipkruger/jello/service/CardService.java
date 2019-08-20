@@ -7,6 +7,8 @@ import com.github.phillipkruger.jello.event.ChangeEventType;
 import com.github.phillipkruger.jello.event.Notify;
 import java.util.List;
 import java.util.logging.Level;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
@@ -25,6 +27,7 @@ import lombok.extern.java.Log;
  */
 @RequestScoped
 @Log
+@DeclareRoles({"admin","user"})
 public class CardService {
     
     @PersistenceContext(name="com.github.phillipkruger.cards")
@@ -35,6 +38,7 @@ public class CardService {
     
     @Notify(ChangeEventType.create)
     @Transactional
+    @RolesAllowed("user")
     public Card createCard(@NotNull Card card) {
         decorateWithUser(card);
         em.persist(card);
@@ -42,10 +46,12 @@ public class CardService {
         return card;
     }
     
+    @RolesAllowed("user")
     public Card getCard(@NotNull @Min(value = 0L) Long id) {
         return em.find(Card.class, id);
     }
     
+    @RolesAllowed("user")
     public List<Card> searchCards(@NotNull @Size(min=2, max=50) String title) {
         List<Card> cards = (List<Card>)em.createNamedQuery(Card.QUERY_SEARCH_BY_TITLE,Card.class)
 					.setParameter("title", title)
@@ -56,6 +62,7 @@ public class CardService {
 
     @Notify(ChangeEventType.delete)
     @Transactional
+    @RolesAllowed("admin")
     public void removeCard(@NotNull Card card) {
         if (!em.contains(card))card = em.merge(card);
         em.remove(card);
@@ -64,6 +71,7 @@ public class CardService {
     
     @Notify(ChangeEventType.update)
     @Transactional
+    @RolesAllowed("user")
     public Card updateCard(@NotNull Card card) {
         decorateWithUser(card);
         card = em.merge(card);
@@ -71,10 +79,12 @@ public class CardService {
         return card;
     }
     
+    @RolesAllowed("user")
     public List<Card> getAllCards() {
         return em.createNamedQuery(Card.QUERY_FIND_ALL, Card.class).getResultList();
     }
 
+    @RolesAllowed("user")
     public List<Card> getAllCardsInSwimlane(Swimlane swimlane) {
         List<Card> cards = (List<Card>)em.createNamedQuery(Card.QUERY_FIND_ALL_IN_SWIMLANE,Card.class)
 					.setParameter("swimlane", swimlane)

@@ -3,10 +3,8 @@ package com.github.phillipkruger.jello.api;
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.service.CardService;
 import java.net.URI;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.security.enterprise.SecurityContext;
+//import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,8 +36,8 @@ public class CardRestApi {
     @Context 
     private UriInfo uriInfo;
     
-    @Inject
-    private SecurityContext securityContext;
+    //@Inject
+    //private SecurityContext securityContext;
     
     @POST
     public Response createCard(Card card){

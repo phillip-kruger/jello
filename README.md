@@ -26,6 +26,8 @@ This will download (fisrt time only), install and start a Wildfly application se
 
 You can see the Web GUI here: http://localhost:8080/cards
 
+(Log in with any email, as long as the password is also that email)
+
 ### Audit System
 The audit system receive change notifications from the Queue and then store it in cache.
 It also has a Websocket GUI to display the audit messages in realtime on the Screen.

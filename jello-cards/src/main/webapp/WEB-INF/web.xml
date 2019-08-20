@@ -3,9 +3,21 @@
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	 version="4.0">
+    
+    <display-name>Jello</display-name>
+    
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>    
+    
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/</location>
+    </error-page>
 
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -24,20 +36,18 @@
     </context-param>
 
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
-        <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
-    
-    <welcome-file-list>
-        <welcome-file>jsf/index.jsf</welcome-file>
-    </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>FacesServlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
 
     <data-source>
         <name>java:jboss/datasources/JelloDS</name>
@@ -70,20 +80,12 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>JSF</web-resource-name>
-            <url-pattern>/whiteboard.jsf</url-pattern>
+            <url-pattern>/board.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>user</role-name>
+            <role-name>admin</role-name>
         </auth-constraint>
-    </security-constraint>
-    
-    <security-constraint>
-        <display-name>Restrict direct access to XHTML files</display-name>
-        <web-resource-collection>
-            <web-resource-name>XHTML files</web-resource-name>
-            <url-pattern>*.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint/>
     </security-constraint>
     
 </web-app>

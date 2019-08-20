@@ -169,14 +169,15 @@ public class CardController implements Serializable {
     }
     
     private DashboardColumn getCorrectColumn(Swimlane swimlane){
-        if(swimlane.equals(Swimlane.development)){
-            return development;
-        }else if(swimlane.equals(Swimlane.testing)){
-            return testing;
-        }else if(swimlane.equals(Swimlane.release)){
-            return release;
-        }else {
-            return pipeline;
+        switch (swimlane) {
+            case development:
+                return development;
+            case testing:
+                return testing;
+            case release:
+                return release;
+            default:
+                return pipeline;
         }
     }
     

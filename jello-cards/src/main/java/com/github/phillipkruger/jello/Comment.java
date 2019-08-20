@@ -42,5 +42,5 @@ public class Comment implements Serializable {
     private LocalDateTime madeOn = LocalDateTime.now();
     
     @XmlAttribute(required=false)
-    private String madeBy = "Unknown";
+    private String madeBy;
 }

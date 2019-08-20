@@ -3,6 +3,7 @@ package com.github.phillipkruger.jello.security;
 import java.util.HashSet;
 import static java.util.Arrays.asList;
 import javax.enterprise.context.ApplicationScoped;
+import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
@@ -19,41 +20,34 @@ import lombok.extern.java.Log;
 @Log
 public class InMemoryIdentityStore implements IdentityStore {
     
-//    @Override
-//    public int priority() {
-//        return 70;
-//    }
-// 
-//    @Override
-//    public Set<ValidationType> validationTypes() {
-//        return EnumSet.of(ValidationType.VALIDATE,ValidationType.PROVIDE_GROUPS);
-//    }
- 
-    public CredentialValidationResult validate(UsernamePasswordCredential credential) {
-        String user = credential.getCaller();
-        String pass = credential.getPasswordAsString();
+    private final HashSet<String> admingroup = new HashSet<>(asList("user", "admin"));
+    private final HashSet<String> usergroup = new HashSet<>(asList("user"));
+    
+    @Override
+    public CredentialValidationResult validate(Credential credential) {
+        UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
         
-        log.severe("user = " + user);
-        log.severe("pass = " + pass);
+        String user = usernamePasswordCredential.getCaller();
+        String pass = usernamePasswordCredential.getPasswordAsString();
         
         if(isEmail(user) && user.equals(pass)){
-            log.severe("Come on in !");
-            return new CredentialValidationResult(credential.getCaller(),new HashSet<>(asList("user", "admin")));
+            if(isAdmin(user)){
+                return new CredentialValidationResult(usernamePasswordCredential.getCaller(),admingroup);
+            }else{
+                return new CredentialValidationResult(usernamePasswordCredential.getCaller(),usergroup);
+            }
         }
         
         return CredentialValidationResult.INVALID_RESULT;
     }
     
-//    @Override
-//    public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
-//        log.severe("getCallerGroups = " + validationResult);
-//        HashSet<String> groups = new HashSet<>();
-//        groups.add("user");
-//        return groups;
-//    }
-
     private boolean isEmail(String email) {
         return email.matches(EMAIL_REGEX);
+    }
+    
+    // If you have a redhat or microsoft email, you get admin !
+    private boolean isAdmin(String email) {
+        return email.endsWith("@redhat.com") || email.endsWith("@microsoft.com");
     }
     
     private static final String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
