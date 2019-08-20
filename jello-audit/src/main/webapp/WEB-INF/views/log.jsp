@@ -86,19 +86,12 @@
             function openSocket(){
                 // Ensures only one connection is open at a time
                 if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
-//                    writeMessage("Already connected...");
+                    toastMessage("Open connection","Already connected...");
                     return;
                 }
-                // Create a new instance of the websocket
-                var loc = window.location, new_uri;
-                if (loc.protocol === "https:") {
-                    new_uri = "wss:";
-                } else {
-                    new_uri = "ws:";
-                }
-                new_uri += "//" + loc.host;
-                new_uri += "/audit/stream";
-                webSocket = new WebSocket(new_uri);
+                
+                var ws_uri = getWsUrl();
+                webSocket = new WebSocket(ws_uri);
 
                 /**
                  * Binds functions to the listeners for the websocket.
@@ -165,6 +158,28 @@
                     showProgress: 'bottom',
                     position: 'bottom right'
                 });
+            }
+            
+            function getWsUrl(){
+                // Create a new instance of the websocket
+                var injected_uri = "${webSocketEndpointURL}";
+                if(isEmpty(injected_uri)){
+                    var loc = window.location, new_uri;
+                    if (loc.protocol === "https:") {
+                        new_uri = "wss:";
+                    } else {
+                        new_uri = "ws:";
+                    }
+                    new_uri += "//" + loc.host;
+                    new_uri += "/audit/stream";
+                    return new_uri;
+                }else{
+                    return injected_uri;
+                }
+            }
+            
+            function isEmpty(str) {
+                return (!str || 0 === str.trim().length);
             }
         </script>
     </body>

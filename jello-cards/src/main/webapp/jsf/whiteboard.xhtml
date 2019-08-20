@@ -1,0 +1,332 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    
+    <pe:head title="#{i18n['heading']}">
+        <f:facet name="first">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="pragma" content="no-cache"/>
+            <meta http-equiv="cache-control" content="no-cache"/>
+            <meta http-equiv="expires" content="0"/>
+        </f:facet>
+    </pe:head>
+    
+    <h:body id="body">
+
+        <style type="text/css">
+            .ui-panel, div.ui-state-hover {
+                margin: 10px;
+            }
+            .ui-dashboard-column {
+                width:25%;
+            }
+            .ui-panelgrid .ui-grid-responsive .ui-panelgrid-cell {
+                text-align: center;
+            }
+            .avatar {
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+            }
+        </style>
+        
+        <h:panelGroup layout="block" id="main">
+            <h:form>  
+                <p:menubar>
+                    <p:menuitem value="#{i18n['home']}" url="/cards/" icon="fa fa-home" />
+                    <p:menuitem value="#{i18n['create']}" action="#{cardController.viewCreateDialog()}" icon="fa fa-plus" update="main"/>
+                    <p:submenu label="#{i18n['language']}" icon="fa fa-globe">
+                        <c:forEach var="locale" items="#{languageController.availableLocales}">
+                            <p:menuitem value="#{locale.getDisplayLanguage(languageController.selectedLocale)}" action="#{languageController.change(locale)}" update="main"/>
+                        </c:forEach>
+                    </p:submenu>
+                    
+                    <p:menuitem value="#{i18n['theme']}" url="javascript:void(0)" icon="fa fa-paint-brush" onclick="PF('changeThemeDialog').show();" update="main"/>
+                    <p:menuitem value="#{i18n['audit']}" url="/audit/app" icon="fa fa-list-alt" target="_blank"></p:menuitem>
+                    
+                    <f:facet name="options">
+                        <p:commandButton type="button" value="#{i18n['logout']}" icon="fa fa-power-off" />
+                    </f:facet>
+                </p:menubar>
+                
+            </h:form>
+
+            <p:panelGrid columns="4" layout="grid" styleClass="ui-noborder">            
+
+                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                    <h2><i class="fa fa-fw fa-list-ol"></i> <h:outputText value="#{i18n['pipeline']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                    <h2><i class="fa fa-fw fa-code"></i> <h:outputText value="#{i18n['development']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                    <h2><i class="fa fa-fw fa-check-square-o"></i> <h:outputText value="#{i18n['testing']}"/></h2>
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                    <h2><i class="fa fa-fw fa-cloud-upload"></i> <h:outputText value="#{i18n['release']}"/></h2>
+                </h:panelGroup>
+
+            </p:panelGrid>
+
+            <p:growl id="growl" showDetail="true" />
+            
+            <h:form>
+                <p:dashboard id="board" model="#{cardController.model}">
+                    <p:ajax event="reorder" listener="#{cardController.handleReorder}" update="growl" />
+
+                    <c:forEach var="card" items="#{cardController.cards}">
+                        
+                        <p:panel id="card_#{card.id}">
+                            <f:facet name="header">
+                                <h:outputText value="#{card.title}" styleClass="h3"/>
+                            </f:facet>
+                            
+                            <h:panelGrid style="width:100%">
+                                <p:row>
+                                    <p:column colspan="2">
+                                       
+                                        <pe:gravatar 
+                                            value="phillip.kruger@gmail.com" 
+                                            style="height: 40;
+                                                border-radius: 50%;
+                                                -moz-border-radius: 50%;
+                                                -webkit-border-radius: 50%;"/>
+
+                                            <h:outputText value="  #{card.createdBy}" styleClass="h4"/>
+                                        
+                                    </p:column>
+                                    <p:column colspan="2">
+                                            <h:outputText value="#{card.created}" class="pull-right text-muted">
+                                                <f:convertDateTime type="localDateTime" pattern="dd MMMM yyyy ' at ' HH:mm" />
+                                            </h:outputText>
+                                    </p:column>
+                                </p:row>
+                                
+                                <br/>
+                                
+                                <p:row>
+                                    <p:column colspan="4">
+                                        <p>
+                                            <h:outputText value="#{card.description}" style="font-weight: bold;" />
+                                        </p>
+                                    </p:column>
+                                </p:row>
+
+                                <br/>
+                                <p:row>
+                                    <p:column colspan="4">
+                                        <p:commandLink update="main" action="#{cardController.viewCommentsDialog(card)}" styleClass="btn btn-link">
+                                            <i class="fa fa-comments"></i><h:outputText value="  #{card.numberOfComments} #{i18n['comments']}"/>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:row>
+                            </h:panelGrid>
+                            
+                            <f:facet name="actions">
+                                <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.deleteCardDialog(card)}" update="main">
+                                    <h:outputText styleClass="ui-icon fa fa-trash-o" title="#{i18n['delete']}"/>
+                                </p:commandLink>
+                                <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.editCardDialog(card)}" update="main">
+                                    <h:outputText styleClass="ui-icon fa fa-pencil" title="#{i18n['edit']}"/>
+                                </p:commandLink>
+                            </f:facet>
+                        </p:panel>
+                        
+                    </c:forEach>
+                </p:dashboard>
+            </h:form>
+            
+            <div style="clear:both" />
+
+            <!-- Add card dialog -->
+            <h:form>
+                <p:dialog id="addCardDialog" header="#{i18n['create_card']}" widgetVar="addCardDialog" modal="true" draggable="true" >
+                    <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
+                    
+                    <p:panelGrid id="idPanelAddCard" styleClass="ui-noborder">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="addCardTitle" value="#{i18n['title']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputText  id="addCardTitle" 
+                                              value="#{cardController.newCard.title}" 
+                                              pt:required="true" 
+                                              label="#{i18n['title']}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="addCardDescription" value="#{i18n['description']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea id="addCardDescription" 
+                                                 value="#{cardController.newCard.description}" 
+                                                 pt:required="true" 
+                                                 label="#{i18n['description']}" 
+                                                 cols="40" 
+                                                 rows="10"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    
+                    <f:facet name="footer">
+                        <p:commandButton icon="fa fa-plus" 
+                                     value="#{i18n['create_card']}" 
+                                     update="main" 
+                                     action="#{cardController.addCard()}"
+                                     styleClass="btn-primary btn-block"/>
+                    </f:facet>
+                </p:dialog>  
+            </h:form>        
+            
+            <!-- Edit dialog -->
+            <h:form>
+                <p:dialog id="editCardDialog" header="#{i18n['edit']} #{cardController.selectedCard.title}" widgetVar="editCardDialog" modal="true" draggable="true">
+                    <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
+                    <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="editCardTitle" value="#{i18n['title']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputText  id="editCardTitle" 
+                                              value="#{cardController.selectedCard.title}" 
+                                              pt:required="true" 
+                                              label="#{i18n['title']}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="editCardDescription" value="#{i18n['description']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea id="editCardDescription" 
+                                                 value="#{cardController.selectedCard.description}" 
+                                                 pt:required="true" 
+                                                 label="#{i18n['description']}" 
+                                                 cols="40" 
+                                                 rows="10"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    
+                    <f:facet name="footer">
+                        <p:commandButton icon="fa fa-pencil" 
+                                         value="#{i18n['edit_card']}" 
+                                         update="main" 
+                                         action="#{cardController.editCard()}"
+                                         styleClass="btn-primary btn-block" />
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+            
+            <!-- Delete Dialog -->
+            <h:form>
+                <p:dialog id="deleteCardDialog" header="#{i18n['delete']} #{cardController.selectedCard.title}" widgetVar="deleteCardDialog" modal="true" draggable="true">
+                    <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
+                    <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="deleteCardTitle" value="#{i18n['title']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel id="deleteCardTitle" value="#{cardController.selectedCard.title}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="deleteCardDescription" value="#{i18n['description']}:" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel id="deleteCardDescription" value="#{cardController.selectedCard.description}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    
+                    <f:facet name="footer">
+                    <p:commandButton icon="fa fa-trash-o" 
+                                     value="#{i18n['delete_card']}" 
+                                     update="main" 
+                                     action="#{cardController.deleteCard()}"
+                                     styleClass="btn-danger btn-block" />
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+            
+            <!-- View comments -->
+            <h:form>
+                <p:dialog id="viewCommentsDialog" header="#{i18n['comments_on']} #{cardController.selectedCard.title}" widgetVar="viewCommentsDialog" modal="true" draggable="true">
+                    <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
+                    <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
+                        <ui:repeat value="#{cardController.selectedCard.comments}" var="comment">
+                        
+                            <p:row>
+                                <p:column style="font-weight: bold;">#{comment.madeBy}</p:column>
+                                <p:column styleClass="pull-right">
+                                    <h:outputText value="#{comment.madeOn}" class="text-muted">
+                                        <f:convertDateTime type="localDateTime" pattern="dd MMMM yyyy ' at ' HH:mm" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+                        
+                            <p:row>
+                                <p:column colspan="2">#{comment.comment}</p:column>
+                            </p:row>
+
+                        </ui:repeat>
+                        <f:facet name="footer">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel for="commentComment" value="#{i18n['add_your_comment']}:" />
+                                </p:column>    
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: center">
+                                    
+                                    <p:inputTextarea  id="commentComment" 
+                                              value="#{cardController.newComment.comment}" 
+                                              pt:required="true"
+                                              cols="40" 
+                                              rows="10"/>
+                                </p:column>                                
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: center">
+                                    
+                                    <p:commandButton icon="fa fa-comment" 
+                                     value="#{i18n['comment']}" 
+                                     update="main" 
+                                     action="#{cardController.addComment()}"
+                                     styleClass="btn-primary btn-block" />
+                                   
+                                </p:column>
+                            </p:row>
+                            
+                        </f:facet>
+                    
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+            
+            <!-- Change theme -->
+            <h:form>
+                <p:dialog id="changeThemeDialog" header="#{i18n['change_theme']}" widgetVar="changeThemeDialog" draggable="true">
+                    <p:themeSwitcher>
+                        <f:selectItem itemLabel="#{i18n['choose_theme']}" itemValue="" />
+                        <f:selectItems value="#{themeController.themes}" var="theme" itemLabel="#{theme}" itemValue="#{theme}"/>
+                    </p:themeSwitcher>
+                </p:dialog>
+            </h:form>
+            
+        </h:panelGroup>
+        
+    </h:body>
+</html>

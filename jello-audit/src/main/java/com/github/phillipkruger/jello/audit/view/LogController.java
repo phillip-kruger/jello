@@ -1,7 +1,10 @@
 package com.github.phillipkruger.jello.audit.view;
 
+import java.net.URL;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mvc.Controller;
+import javax.mvc.Models;
 import javax.mvc.View;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,13 +21,21 @@ import lombok.extern.java.Log;
 @Controller
 public class LogController {
 
+    @Resource(lookup = "java:global/webSocketEndpointURL")
+    private String webSocketEndpointURL;
+    
     @Inject
     private Status status;
 
+     @Inject
+    private Models models;
+
+    
     @GET
     @View("log.jsp")
     public void getLog(){
-        
+        models.put("webSocketEndpointURL", webSocketEndpointURL);
+        log.severe(">>>>>>>>>>>>>> webSocketEndpointURL = "  + webSocketEndpointURL);
     }
     
     @POST

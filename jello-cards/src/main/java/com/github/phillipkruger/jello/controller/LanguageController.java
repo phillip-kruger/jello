@@ -1,13 +1,13 @@
 package com.github.phillipkruger.jello.controller;
 
+import com.github.phillipkruger.jello.service.LanguageService;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -26,37 +26,19 @@ public class LanguageController implements Serializable {
     @Getter @Setter
     private String localeCode;
     @Getter @Setter
-    private String selectedLanguage = DEFAULT_LANGUAGE;
+    private Locale selectedLocale = Locale.ENGLISH; // Default
     
-    private final static Map<String,Locale> languages;
+    @Inject
+    private LanguageService languageService; 
     
-    public void change(String newLanguage){
-        languages.entrySet().stream().filter((entry) -> (entry.getValue().toString().equals(newLanguage))).map((entry) -> {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(entry.getValue());
-            return entry;
-        }).forEachOrdered((entry) -> {
-            this.selectedLanguage = entry.getKey();
-        });
-    }
-    
-    public void languageChanged(ValueChangeEvent e){
+    public void change(Locale locale){
+        this.selectedLocale = locale;
+        locale.getDisplayLanguage(locale);
         
-        String newLocaleValue = e.getNewValue().toString();
-        change(newLocaleValue);
-        
-    }
-
-    public Map<String,Locale> getAvailableLanguages(){
-        return languages;
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
     
-    // TODO: Load from properties ?
-    static{
-        languages = new LinkedHashMap<>();
-        languages.put("English", Locale.ENGLISH);
-        languages.put("Afrikaans", new Locale("af"));
-        languages.put("Hindi", new Locale("hi"));
+    public List<Locale> getAvailableLocales(){
+        return languageService.getLocales();
     }
-    
-    private static final String DEFAULT_LANGUAGE = "English";
 }
