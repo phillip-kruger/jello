@@ -85,6 +85,7 @@ public class CardController implements Serializable {
     
     // Edit
     public void editCardDialog(Card c){
+        checkSwimlane(c);
         this.selectedCard = c;
         showDialog("editCardDialog");
     }
@@ -92,7 +93,6 @@ public class CardController implements Serializable {
     public void editCard(){
         String title = cardService.updateCard(selectedCard).getTitle();
         this.selectedCard = null;
-        
         addMessage("updated_card",title);
     }
     
@@ -107,6 +107,7 @@ public class CardController implements Serializable {
     
     // Update (comments)
     public void viewCommentsDialog(Card c){
+        checkSwimlane(c);
         this.selectedCard = c;
         this.newComment = new Comment();
         showDialog("viewCommentsDialog");
@@ -122,6 +123,7 @@ public class CardController implements Serializable {
     
     // Delete
     public void deleteCardDialog(Card c){
+        checkSwimlane(c);
         this.selectedCard = c;
         showDialog("deleteCardDialog");
     }
@@ -138,6 +140,11 @@ public class CardController implements Serializable {
     // Cancel dialog 
     public void handleDialogClose(CloseEvent event) {
         reset();
+    }
+    
+    private void checkSwimlane(Card c){
+        Swimlane original = cardService.getCard(c.getId()).getSwimlane();
+        c.setSwimlane(original);
     }
     
     private void reset(){

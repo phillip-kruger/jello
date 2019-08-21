@@ -36,10 +36,11 @@ public class CardQueueConsumer implements MessageListener {
         
         try {
             String action = message.getStringProperty(ACTION_PROPERTY);
+            String user = message.getStringProperty(USER_PROPERTY);
             String body = message.getBody(String.class);
             
             JsonObject jsonObject = getJsonObject(body);
-            AuditEntry auditEntry = toAuditEntry(action, jsonObject);
+            AuditEntry auditEntry = toAuditEntry(action, user, jsonObject);
             auditWebSocket.createAuditEntry(auditEntry);
             
         } catch (JMSException ex) {
@@ -52,11 +53,11 @@ public class CardQueueConsumer implements MessageListener {
         return reader.readObject();
     }
     
-    private AuditEntry toAuditEntry(String action,JsonObject jsonObject){
+    private AuditEntry toAuditEntry(String action, String user, JsonObject jsonObject){
         AuditEntry auditEntry = new AuditEntry();
         auditEntry.setWhat(action);
         auditEntry.setObject("card");
-        
+        auditEntry.setWho(user);
         String timestamp = jsonObject.getString("timestamp");
         auditEntry.setWhen(timestamp);
         
@@ -69,11 +70,12 @@ public class CardQueueConsumer implements MessageListener {
         metadata.put("created", cardJsonObject.getString("created"));
         metadata.put("numberOfComments", cardJsonObject.getInt("numberOfComments"));
         metadata.put("swimlane", cardJsonObject.getString("swimlane"));
-        
+        metadata.put("createdBy", cardJsonObject.getString("createdBy"));
         auditEntry.setMetadata(metadata);
         
         return auditEntry;
     }
     
     private static final String ACTION_PROPERTY = "ChangeEvent";
+    private static final String USER_PROPERTY = "User";
 }

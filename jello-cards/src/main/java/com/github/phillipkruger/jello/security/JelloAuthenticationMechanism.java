@@ -34,7 +34,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
 
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
-        //if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
+        if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
         
         if (request.getParameter(FORM_USER) != null && request.getParameter(FORM_PASS) != null) {
             return formLoginAuthentication(request,httpMessageContext);

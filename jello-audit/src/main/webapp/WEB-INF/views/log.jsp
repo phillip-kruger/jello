@@ -29,6 +29,7 @@
             <table class="ui compact table" id="audittable">
                 <thead>
                     <tr>
+                        <th>Who</th>
                         <th>When</th>
                         <th style="display: none;">Object</th>
                         <th>Action</th>
@@ -36,7 +37,6 @@
                         <th>Title</th>
                         <th>Description</th>
                         <th>Created</th>
-                        <th>Number Of Comments</th>
                         <th>Swimlane</th>
                     </tr>
                 </thead>
@@ -104,17 +104,17 @@
                 webSocket.onmessage = function(event){
 
                     var json = JSON.parse(event.data);
+                    var who = json.who;
                     var what = json.object;
                     var action = json.what;
                     var when = json.when;
                     var created = json.metadata.created;
                     var description = json.metadata.description;
                     var id = json.metadata.id;
-                    var numberOfComments = json.metadata.numberOfComments;
                     var swimlane = json.metadata.swimlane;
                     var title = json.metadata.title;
 //                    console.log(json);
-                    addRowAtTop(what,when,action,id,title,description,created,numberOfComments,swimlane);
+                    addRowAtTop(who,what,when,action,id,title,description,created,swimlane);
                 };
 
             }
@@ -127,7 +127,7 @@
                 $.post("", { action:action });
             }
     
-            function addRowAtTop(what,when,action,id,title,description,created,numberOfComments,swimlane) { 
+            function addRowAtTop(who,what,when,action,id,title,description,created,swimlane) { 
                 var clazz = "positive";
                 if(action === "update"){ 
                     clazz = "warning";
@@ -138,6 +138,7 @@
                 $('#audittable > tbody > tr:first')
                         .before(
                         '<tr class=' + clazz + '>' + 
+                            '<td data-label="Who">' + who + '</td>' + 
                             '<td data-label="When">' + when + '</td>' + 
                             '<td data-label="Object" style="display: none;">' + what + '</td>' + 
                             '<td data-label="Action">' + action + '</td>' + 
@@ -145,7 +146,6 @@
                             '<td data-label="Title">' + title + '</td>' + 
                             '<td data-label="Description">' + description + '</td>' + 
                             '<td data-label="Created">' + created + '</td>' + 
-                            '<td data-label="Number Of Comments">' + numberOfComments + '</td>' + 
                             '<td data-label="Swimlane">' + swimlane + '</td>' + 
                         '</tr>');
                 

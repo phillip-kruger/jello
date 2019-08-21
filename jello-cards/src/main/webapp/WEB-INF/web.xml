@@ -40,10 +40,7 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>FacesServlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
-    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
@@ -93,10 +90,11 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
-    
-    <security-role>  
+      
+    <security-role>
         <role-name>user</role-name>
+    </security-role>
+    <security-role>
         <role-name>admin</role-name>
-    </security-role>  
-    
+    </security-role>
 </web-app>
