@@ -1,6 +1,7 @@
 package com.github.phillipkruger.jello.security;
 
-import java.util.Arrays;
+import com.github.phillipkruger.jello.security.token.Token;
+import com.github.phillipkruger.jello.security.token.TokenHelper;
 import java.util.HashSet;
 import javax.annotation.security.DeclareRoles;
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 
 /**
- * Web based username and password for the JSF screen
+ * Web based username and password for the JSF screen and token based for API
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log
@@ -32,6 +33,9 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
     @Inject
     private IdentityStore identityStore;
 
+    @Inject
+    private TokenHelper tokenHelper;
+    
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
         if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
@@ -45,15 +49,17 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
         }
     }
 
-    // TODO: Get propper Token auth used in REST and translate properly
     private AuthenticationStatus tokenAuthentication(HttpServletRequest request, HttpMessageContext httpMessageContext){
         final String key = request.getHeader(TOKEN_HEADER);
-        if (key != null && key.equalsIgnoreCase("DUKE ROCKS")) {
-            return httpMessageContext.notifyContainerAboutLogin(
-                    "app", new HashSet<>(Arrays.asList("user"))); // TODO: Get user from token
-        } else {
-            return httpMessageContext.responseUnauthorized();
+        if (key != null) {
+            Token token = tokenHelper.decrypt(key);
+            if(token!=null && token.getUser()!=null){
+                return httpMessageContext.notifyContainerAboutLogin(
+                    token.getUser(), new HashSet<>(token.getGroups()));
+            }
         }
+        return httpMessageContext.responseUnauthorized();
+        
     }
     
     // Form based used in GUI
@@ -71,7 +77,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
         }
     }
     
-    private static final String TOKEN_HEADER = "MY-API-KEY";
+    private static final String TOKEN_HEADER = "jello.api.key";
     private static final String FORM_USER = "login:username";
     private static final String FORM_PASS = "login:password";
     

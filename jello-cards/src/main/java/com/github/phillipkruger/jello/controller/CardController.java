@@ -3,6 +3,7 @@ package com.github.phillipkruger.jello.controller;
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.Comment;
 import com.github.phillipkruger.jello.Swimlane;
+import com.github.phillipkruger.jello.security.token.TokenHelper;
 import com.github.phillipkruger.jello.service.CardService;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ import org.primefaces.model.DefaultDashboardModel;
 public class CardController implements Serializable {
     
     @Inject
+    private TokenHelper tokenHelper;
+    
+    @Inject
     private CardService cardService; 
     
     @Getter
@@ -47,6 +51,9 @@ public class CardController implements Serializable {
     
     @Getter @Setter
     private Card selectedCard;
+    
+    @Getter
+    private String apiKey;
     
     @Getter
     private final DashboardModel model = new DefaultDashboardModel();
@@ -67,6 +74,14 @@ public class CardController implements Serializable {
         for(Card c:cards){
             getCorrectColumn(c.getSwimlane()).addWidget("card_" + c.getId());
         }
+        
+        this.apiKey = tokenHelper.generateToken();
+    }
+    
+    
+    // API Key
+    public void viewApiKeyDialog(){
+        showDialog("apiKeyDialog");
     }
     
     // Create

@@ -55,6 +55,12 @@
                     
                     <f:facet name="options">
                         
+                        <h:commandLink action="#{cardController.viewApiKeyDialog()}"
+                                        style="margin-right:10px" 
+                                        title="#{i18n['api_key']}">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                        </h:commandLink>
+                        
                         <h:outputLink rendered="#{facesContext.externalContext.isUserInRole('admin')}"
                                       style="margin-right:10px" 
                                       title="#{i18n['admin_star']}">
@@ -75,7 +81,7 @@
             </h:form>
 
             <p:growl id="growl" showDetail="true" />
-            <!--styleClass="callout-card callout-light">-->
+            
             <p:panelGrid columns="4" layout="grid" styleClass="ui-noborder">            
                 <h:panelGroup layout="block"> 
                     <h2><i class="fa fa-fw fa-list-ol"></i> <h:outputText value="#{i18n['pipeline']}"/></h2>
@@ -157,6 +163,18 @@
             
             <div style="clear:both" />
 
+            <!-- API Key dialog -->
+            <p:dialog id="apiKeyDialog" header="API Key" widgetVar="apiKeyDialog" minHeight="40" modal="true" closable="true">
+                
+                <h:form>
+                    <h:outputText id="txtCopy" value="#{cardController.apiKey}" />
+                    <br/><br/>
+                    <p:commandButton id="btnCopy" value="Copy" icon="fa fa-copy" class="pull-right" onclick="dialog.hide()"/>  
+                    <pe:clipboard id="clipCopy" trigger="btnCopy" action="copy" target="txtCopy"/>  
+                        
+                </h:form>
+            </p:dialog>
+            
             <!-- Add card dialog -->
             <h:form>
                 <p:dialog id="addCardDialog" header="#{i18n['create_card']}" widgetVar="addCardDialog" modal="true" draggable="true" >
