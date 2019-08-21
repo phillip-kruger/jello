@@ -1,13 +1,13 @@
 package com.github.phillipkruger.jello.controller;
 
-import com.github.phillipkruger.jello.service.LanguageService;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -17,28 +17,33 @@ import lombok.extern.java.Log;
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log
-@SessionScoped
+@ApplicationScoped
 @Named
-public class LanguageController implements Serializable {
+public class LanguageController {
 	
-    private static final long serialVersionUID = 1L;
-	
-    @Getter @Setter
-    private String localeCode;
     @Getter @Setter
     private Locale selectedLocale = Locale.ENGLISH; // Default
     
-    @Inject
-    private LanguageService languageService; 
+    @Resource(lookup = "java:global/supportedLanguages")
+    private String supportedLanguages;
+    
+    @Getter
+    private List<Locale> availableLocales;
+    
+    @PostConstruct
+    public void init(){
+        String langs[] = supportedLanguages.split(",");
+        
+        this.availableLocales = new ArrayList<>();
+        for(String lang:langs){
+            this.availableLocales.add(new Locale(lang));
+        }
+    }  
     
     public void change(Locale locale){
         this.selectedLocale = locale;
         locale.getDisplayLanguage(locale);
         
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-    }
-    
-    public List<Locale> getAvailableLocales(){
-        return languageService.getLocales();
-    }
+    }  
 }

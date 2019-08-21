@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.security.enterprise.SecurityContext;
 import javax.servlet.http.HttpSession;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -19,7 +18,7 @@ import lombok.extern.java.Log;
  */
 @Log
 @Named
-@RequestScoped // SessionScoped ?
+@RequestScoped
 public class LoginController {
     @Getter @Setter
     private String username;
@@ -33,14 +32,18 @@ public class LoginController {
         return "board";
     }
     
-    public String logout() throws IOException {
+    public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ((HttpSession) externalContext.getSession(false)).invalidate();
-        return "index";
+        externalContext.redirect("index.xhtml");
     }
     
     public String getLoggedInUser(){
-        if(securityContext!=null && securityContext.getCallerPrincipal()!=null)return securityContext.getCallerPrincipal().getName();
+        if(isLoggedIn())return securityContext.getCallerPrincipal().getName();
         return null;
+    }
+    
+    private boolean isLoggedIn(){
+        return securityContext!=null && securityContext.getCallerPrincipal()!=null;
     }
 }

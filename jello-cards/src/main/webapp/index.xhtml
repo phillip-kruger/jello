@@ -2,86 +2,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">
 
-    <h:head>
-        <title>Jello Admin</title>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-        <meta name="mobile-web-app-capable" content="yes"/>
-        
+    <pe:head title="#{i18n['heading']}">
+        <f:facet name="first">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="pragma" content="no-cache"/>
+            <meta http-equiv="cache-control" content="no-cache"/>
+            <meta http-equiv="expires" content="0"/>
+        </f:facet>
         <style type="text/css">
-
-            /* below css hides growls in small screens and makes messages visible */
-            @media (max-width: 768px) {
-                
-                body div.ui-growl {
-                    display: none;
-                }
-                
-               body div.ui-messages {
-                    display: block;
-                }
-
-            }
-            /* below css hides messages in medium/big devices and makes growl visible in such devices */
-            @media (min-width: 769px) {
-              body div.ui-growl {
-                    display: block;
-                }
-
-              body div.ui-messages {
-                    display: none;
-                }
-            }
-
             body.login-page {
                 background-color: transparent;
             }
-
-            html {
-                background: url(#{resource[ 'images:login-bg.jpg' ]}) no-repeat center center fixed;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
-            }
-            
-            @media (max-width: 768px) {
-                html {
-                    background-image: url(#{resource[ 'images:login-bg-mobile.jpeg' ]});
-                }
-            }
-
         </style>
-    </h:head>
-
-
+    </pe:head>
+    
     <h:body styleClass="hold-transition login-page">
-        <div id="loader" class="load-bar" style="display: none">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
+
 
         <div class="login-box">
             <div class="login-logo">
                 <p:link href="index.xhtml"><b>Jello</b>Admin</p:link>
             </div>
+            <p:growl id="growl" showDetail="true" />
             <div class="box login-box-body">
                 <h:form id="login">
-                    <p class="login-box-msg">Sign in to start your session</p>
+                    <p class="login-box-msg">#{i18n['sign_in_instruction']}</p>
                     <p:messages closable="true" />
-                    <p:growl sticky="true"/>
                     <div class="form-group has-feedback">
-                        <p:inputText id="username" value="#{loginController.username}" type="email" styleClass="form-control" placeholder="Email"
-                                     required="true" autocomplete="off" requiredMessage="Email is required."/>
+                        <p:inputText id="username" value="#{loginController.username}" type="email" styleClass="form-control" placeholder="#{i18n['email']}"
+                                     required="true" autocomplete="off" requiredMessage="#{i18n['email_required']}"/>
                         <i class="fa fa-envelope form-control-feedback"></i>
                     </div>
                     <div class="form-group has-feedback">
-                        <p:inputText id="password" value="#{loginController.password}" type="password" styleClass="form-control"
-                                     placeholder="Password" required="true" autocomplete="off" requiredMessage="Password is required."/>
+                        <p:inputText id="password" value="#{loginController.password}" type="password" styleClass="form-control" placeholder="#{i18n['password']}" 
+                                     required="true" autocomplete="off" requiredMessage="#{i18n['password_required']}"/>
                         <i class="fa fa-lock form-control-feedback" style="font-size: 18px" ></i>
                     </div>
                     <div class="row">
@@ -89,25 +47,10 @@
                         <div class="col-xs-12">
                             <p:commandButton styleClass="btn btn-success btn-block" onclick="showBar()"
                                              action="#{loginController.login()}" oncomplete="if(args.validationFailed) { hideBar()}"
-                                             value="Sign In" process="@form" update="@form"/>
+                                             value="#{i18n['sign_in']}" process="@form" update="@form"/>
                         </div>
                     </div>
                 </h:form>
-
-                <div class="social-auth-links text-center">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i
-                            class="fa fa-facebook"></i> Sign in using
-                        Facebook</a>
-                    <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i
-                            class="fa fa-google-plus"></i> Sign in using
-                        Google+</a>
-                </div>
-                <!-- /.social-auth-links -->
-
-                <a href="#">I forgot my password</a><br/>
-                <a href="#" class="text-center">Register a new membership</a>
-
             </div>
         </div>
  

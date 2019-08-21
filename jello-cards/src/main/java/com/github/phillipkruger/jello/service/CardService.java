@@ -64,6 +64,7 @@ public class CardService {
     @Transactional
     @RolesAllowed("admin")
     public void removeCard(@NotNull Card card) {
+        log.warning("REMOVING : " + securityContext.getCallerPrincipal().getName());
         if (!em.contains(card))card = em.merge(card);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", JsonbBuilder.create().toJson(card));

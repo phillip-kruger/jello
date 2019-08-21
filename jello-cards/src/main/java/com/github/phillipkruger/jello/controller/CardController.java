@@ -126,7 +126,7 @@ public class CardController implements Serializable {
         showDialog("deleteCardDialog");
     }
     
-     public void deleteCard(){
+    public void deleteCard(){
         this.cards.remove(selectedCard);
         String title = selectedCard.getTitle();
         cardService.removeCard(selectedCard);

@@ -2,6 +2,8 @@ package com.github.phillipkruger.jello.security;
 
 import java.util.HashSet;
 import static java.util.Arrays.asList;
+import java.util.EnumSet;
+import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
@@ -18,10 +20,15 @@ import lombok.extern.java.Log;
  */
 @ApplicationScoped
 @Log
-public class InMemoryIdentityStore implements IdentityStore {
+public class UnsecureMemoryIdentityStore implements IdentityStore {
     
     private final HashSet<String> admingroup = new HashSet<>(asList("user", "admin"));
     private final HashSet<String> usergroup = new HashSet<>(asList("user"));
+    
+    @Override
+    public Set<ValidationType> validationTypes() {
+        return EnumSet.of(ValidationType.VALIDATE);
+    }
     
     @Override
     public CredentialValidationResult validate(Credential credential) {
@@ -31,14 +38,18 @@ public class InMemoryIdentityStore implements IdentityStore {
         String pass = usernamePasswordCredential.getPasswordAsString();
         
         if(isEmail(user) && user.equals(pass)){
-            if(isAdmin(user)){
-                return new CredentialValidationResult(usernamePasswordCredential.getCaller(),admingroup);
-            }else{
-                return new CredentialValidationResult(usernamePasswordCredential.getCaller(),usergroup);
-            }
+            return new CredentialValidationResult(usernamePasswordCredential.getCaller(),getGroupsForUser(user));
         }
         
         return CredentialValidationResult.INVALID_RESULT;
+    }
+    
+    private Set<String> getGroupsForUser(String user){
+        if(isAdmin(user)){
+            return admingroup;
+        }else{
+            return usergroup;
+        }
     }
     
     private boolean isEmail(String email) {

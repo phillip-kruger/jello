@@ -64,6 +64,12 @@
         <env-entry-value>en,af,hi</env-entry-value>
     </env-entry>
     
+    <env-entry>
+        <env-entry-name>java:global/supportedThemes</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>admin,nova-light,nova-dark,nova-colored,luna-blue,luna-amber,luna-green,luna-pink,omega</env-entry-value>
+    </env-entry>
+    
     <!-- For the REST Endpoints -->
     <security-constraint>
         <web-resource-collection>
@@ -87,5 +93,10 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
+    
+    <security-role>  
+        <role-name>user</role-name>
+        <role-name>admin</role-name>
+    </security-role>  
     
 </web-app>

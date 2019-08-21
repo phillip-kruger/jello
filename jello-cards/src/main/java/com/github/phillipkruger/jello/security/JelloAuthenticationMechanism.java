@@ -1,10 +1,7 @@
 package com.github.phillipkruger.jello.security;
 
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import javax.annotation.security.DeclareRoles;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -37,7 +34,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
 
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
-        if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
+        //if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
         
         if (request.getParameter(FORM_USER) != null && request.getParameter(FORM_PASS) != null) {
             return formLoginAuthentication(request,httpMessageContext);
@@ -53,7 +50,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
         final String key = request.getHeader(TOKEN_HEADER);
         if (key != null && key.equalsIgnoreCase("DUKE ROCKS")) {
             return httpMessageContext.notifyContainerAboutLogin(
-                    "app", new HashSet<>(Arrays.asList("user")));
+                    "app", new HashSet<>(Arrays.asList("user"))); // TODO: Get user from token
         } else {
             return httpMessageContext.responseUnauthorized();
         }
@@ -68,8 +65,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
                 new UsernamePasswordCredential(name, password));
 
         if (result.getStatus() == VALID) {
-            return httpMessageContext.notifyContainerAboutLogin(
-                    result.getCallerPrincipal(), result.getCallerGroups());
+            return httpMessageContext.notifyContainerAboutLogin(result);
         } else {    
             return httpMessageContext.responseUnauthorized();
         }

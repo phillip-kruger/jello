@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
     <security-domain>jaspitest</security-domain>
+<!--    <security-role>
+        <description>Admin Role</description>
+        <role-name>admin</role-name>
+        <principal-name>admin</principal-name>
+    </security-role>
+    <security-role>
+        <description>User Role</description>
+        <role-name>user</role-name>
+        <principal-name>user</principal-name>
+    </security-role>-->
 </jboss-web>

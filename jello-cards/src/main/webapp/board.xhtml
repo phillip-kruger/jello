@@ -53,10 +53,15 @@
                     <p:menuitem value="#{i18n['theme']}" url="javascript:void(0)" icon="fa fa-paint-brush" onclick="PF('changeThemeDialog').show();" update="main"/>
                     <p:menuitem value="#{i18n['audit']}" url="/audit/app" icon="fa fa-list-alt" target="_blank"></p:menuitem>
                     
-                    
-                    
                     <f:facet name="options">
-                        <h:commandLink class="btn btn-primary" action="#{loginController.logout()}" value="#{fn:substringBefore(loginController.loggedInUser,'@')}  " title="#{i18n['logout']}">
+                        
+                        <h:outputLink rendered="#{facesContext.externalContext.isUserInRole('admin')}"
+                                      style="margin-right:10px" 
+                                      title="#{i18n['admin_star']}">
+                            <i class="fa fa-star" style="color:red" aria-hidden="true"></i>
+                        </h:outputLink>
+                        
+                        <h:commandLink class="btn btn-primary btn-sm" action="#{loginController.logout()}" value="#{fn:substringBefore(request.remoteUser,'@')}  " title="#{i18n['logout']}">
                             <pe:gravatar value="#{loginController.loggedInUser}" size="30"
                                                 style="height: 30;
                                                 border-radius: 50%;
@@ -69,25 +74,23 @@
                 
             </h:form>
 
+            <p:growl id="growl" showDetail="true" />
+            <!--styleClass="callout-card callout-light">-->
             <p:panelGrid columns="4" layout="grid" styleClass="ui-noborder">            
-
-                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                <h:panelGroup layout="block"> 
                     <h2><i class="fa fa-fw fa-list-ol"></i> <h:outputText value="#{i18n['pipeline']}"/></h2>
                 </h:panelGroup>
-                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                <h:panelGroup layout="block">
                     <h2><i class="fa fa-fw fa-code"></i> <h:outputText value="#{i18n['development']}"/></h2>
                 </h:panelGroup>
-                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                <h:panelGroup layout="block">
                     <h2><i class="fa fa-fw fa-check-square-o"></i> <h:outputText value="#{i18n['testing']}"/></h2>
                 </h:panelGroup>
-                <h:panelGroup layout="block" styleClass="callout-card callout-light">
+                <h:panelGroup layout="block">
                     <h2><i class="fa fa-fw fa-cloud-upload"></i> <h:outputText value="#{i18n['release']}"/></h2>
                 </h:panelGroup>
-
             </p:panelGrid>
 
-            <p:growl id="growl" showDetail="true" />
-            
             <h:form>
                 <p:dashboard id="board" model="#{cardController.model}">
                     <p:ajax event="reorder" listener="#{cardController.handleReorder}" update="growl" />

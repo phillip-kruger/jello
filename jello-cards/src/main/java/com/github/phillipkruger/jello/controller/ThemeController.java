@@ -1,9 +1,9 @@
 package com.github.phillipkruger.jello.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import lombok.Getter;
@@ -14,24 +14,16 @@ import lombok.Getter;
  */
 @ApplicationScoped
 @Named
-public class ThemeController implements Serializable {
-	
-    private static final long serialVersionUID = 1L;
+public class ThemeController {
 
+    @Resource(lookup = "java:global/supportedThemes")
+    private String supportedThemes;
+    
     @Getter
     private List<String> themes;
-     
+    
     @PostConstruct
-    public void init() {
-        themes = new ArrayList<>();
-        themes.add("admin");
-        themes.add("nova-light");
-        themes.add("nova-dark");
-        themes.add("nova-colored");
-        themes.add("luna-blue");
-        themes.add("luna-amber");
-        themes.add("luna-green");
-        themes.add("luna-pink");
-        themes.add("omega");
+    public void init(){
+        this.themes = Arrays.asList(supportedThemes.split(","));
     }
 }
