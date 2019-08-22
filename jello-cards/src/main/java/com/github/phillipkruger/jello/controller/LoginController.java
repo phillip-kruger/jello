@@ -29,7 +29,10 @@ public class LoginController {
     private SecurityContext securityContext;
     
     public String login() throws IOException {
-        return "board";
+//        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+//        ((HttpSession) externalContext.getSession(false)).invalidate();
+//        externalContext.redirect("board.xhtml");
+        return "board.xhtml?faces-redirect=true";
     }
     
     public void logout() throws IOException {

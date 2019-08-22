@@ -2,8 +2,13 @@ package com.github.phillipkruger.jello.security;
 
 import com.github.phillipkruger.jello.security.token.Token;
 import com.github.phillipkruger.jello.security.token.TokenHelper;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import javax.annotation.security.DeclareRoles;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.AuthenticationException;
@@ -38,24 +43,29 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
     
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
-        if(request.getRequestURI().contains("/javax.faces.resource/"))return httpMessageContext.doNothing();
-        
-        if (request.getParameter(FORM_USER) != null && request.getParameter(FORM_PASS) != null) {
+        if (request.getParameter(FORM_USER) != null && request.getParameter(FORM_PASS) != null && !httpMessageContext.isProtected()) {
             return formLoginAuthentication(request,httpMessageContext);
-        }else if (request.getHeader(TOKEN_HEADER) != null) {
+        }else if (request.getHeader(TOKEN_HEADER) != null && httpMessageContext.isProtected()) {
             return tokenAuthentication(request,httpMessageContext);
-        }else {
+        }else if(!httpMessageContext.isProtected()){
             return httpMessageContext.doNothing();
+        }else{
+            return httpMessageContext.responseUnauthorized();
         }
     }
 
     private AuthenticationStatus tokenAuthentication(HttpServletRequest request, HttpMessageContext httpMessageContext){
         final String key = request.getHeader(TOKEN_HEADER);
         if (key != null) {
-            Token token = tokenHelper.decrypt(key);
-            if(token!=null && token.getUser()!=null){
-                return httpMessageContext.notifyContainerAboutLogin(
-                    token.getUser(), new HashSet<>(token.getGroups()));
+            try {
+                Token token = tokenHelper.decrypt(key);
+                if(token!=null && token.getUser()!=null){
+                    return httpMessageContext.notifyContainerAboutLogin(
+                        token.getUser(), new HashSet<>(token.getGroups()));
+                }
+            }catch(InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e){
+                // At any error, we do not allow access.
+                httpMessageContext.responseUnauthorized();
             }
         }
         return httpMessageContext.responseUnauthorized();

@@ -52,6 +52,7 @@ public class CardRestApi {
     @Path("/{id}")
     public Response getCard(@PathParam("id") Long id){
         Card card = cardService.getCard(id);
+        if(card==null)return Response.noContent().build();
         return Response.ok(card).build();
     }
     

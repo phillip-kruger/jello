@@ -28,29 +28,21 @@ public class TokenHelper {
     @Inject
     private SecurityContext securityContext;
     
-    public String generateToken(){
+    public String generateToken() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
         String token = getStringToEncrypt();
-        try {
-            Cipher c = Cipher.getInstance(ALGORITHM);
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encValue = c.doFinal(token.getBytes());
-            return new String(Base64.getEncoder().encode(encValue));
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
-            throw new RuntimeException(ex);
-        }
+        Cipher c = Cipher.getInstance(ALGORITHM);
+        c.init(Cipher.ENCRYPT_MODE, key);
+        byte[] encValue = c.doFinal(token.getBytes());
+        return new String(Base64.getEncoder().encode(encValue));
     }
 
-    public Token decrypt(String encryptedValue) {
-        try {
-            Cipher c = Cipher.getInstance(ALGORITHM);
-            c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decordedValue = Base64.getDecoder().decode(encryptedValue);
-            byte[] decValue = c.doFinal(decordedValue);
-            String decryptedValue = new String(decValue);
-            return JsonbBuilder.create().fromJson(decryptedValue, Token.class);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
-            throw new RuntimeException(ex);
-        }
+    public Token decrypt(String encryptedValue) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher c = Cipher.getInstance(ALGORITHM);
+        c.init(Cipher.DECRYPT_MODE, key);
+        byte[] decordedValue = Base64.getDecoder().decode(encryptedValue);
+        byte[] decValue = c.doFinal(decordedValue);
+        String decryptedValue = new String(decValue);
+        return JsonbBuilder.create().fromJson(decryptedValue, Token.class);
     }
     
     private String getStringToEncrypt(){

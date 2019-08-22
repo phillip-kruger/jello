@@ -6,9 +6,14 @@ import com.github.phillipkruger.jello.Swimlane;
 import com.github.phillipkruger.jello.security.token.TokenHelper;
 import com.github.phillipkruger.jello.service.CardService;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -75,7 +80,11 @@ public class CardController implements Serializable {
             getCorrectColumn(c.getSwimlane()).addWidget("card_" + c.getId());
         }
         
-        this.apiKey = tokenHelper.generateToken();
+        try {
+            this.apiKey = tokenHelper.generateToken();
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+            addWarningMessage("api_key_gen_error",ex.getMessage());
+        }
     }
     
     
@@ -108,7 +117,7 @@ public class CardController implements Serializable {
     public void editCard(){
         String title = cardService.updateCard(selectedCard).getTitle();
         this.selectedCard = null;
-        addMessage("updated_card",title);
+        addInfoMessage("updated_card",title);
     }
     
     // Update (lane)
@@ -117,7 +126,7 @@ public class CardController implements Serializable {
         Long cardId = getCardId(event.getWidgetId());
         Card c = changeLanes(cardId,swimlane);
         
-        addMessage("moved_card",c.getTitle());
+        addInfoMessage("moved_card",c.getTitle());
     }
     
     // Update (comments)
@@ -133,7 +142,7 @@ public class CardController implements Serializable {
         cardService.updateCard(selectedCard).getTitle();
         String comment = newComment.getComment();
         reset();
-        addMessage("comment_added",comment);
+        addInfoMessage("comment_added",comment);
     }
     
     // Delete
@@ -149,7 +158,7 @@ public class CardController implements Serializable {
         cardService.removeCard(selectedCard);
         reset();
 
-        addMessage("deleted_card",title);
+        addInfoMessage("deleted_card",title);
     }
     
     // Cancel dialog 
@@ -203,9 +212,17 @@ public class CardController implements Serializable {
         }
     }
     
-    private void addMessage(String titleKey,String message){
+    private void addWarningMessage(String titleKey,String message){
+        addMessage(FacesMessage.SEVERITY_WARN,titleKey,message);
+    }
+    
+    private void addInfoMessage(String titleKey,String message){
+        addMessage(FacesMessage.SEVERITY_INFO,titleKey,message);
+    }
+    
+    private void addMessage(FacesMessage.Severity severity, String titleKey,String message){
         String title = getI18n(titleKey);
-        FacesMessage facesmessage = new FacesMessage(FacesMessage.SEVERITY_INFO, title, message);
+        FacesMessage facesmessage = new FacesMessage(severity, title, message);
         addMessage(facesmessage);
     }
     
