@@ -1,5 +1,11 @@
 # Jello
-Like Trello, but not
+(Like Trello, but not)
+
+This is an example application to demonstrate some of the APIs available under the Jakarta EE Umbrella.
+
+## High Level Overview
+
+TODO
 
 ## Build
 
@@ -45,3 +51,14 @@ You can see the Web GUI here: http://localhost:8080/audit/app
 ## Demo
 
 Once both systems is running, create new cards using the GUI in the card system, and see the log entries in the audit system.
+
+TODO: Add some scenarios
+
+## Presentations
+
+If anyone is looking for a talk to give at your local meetups or conferences you are welcome to use all or parts of this demo and presentation. 
+You can make it your own or use it as is. You are also welcome to improve the talk and demo and contribute back.
+
+### Known presentations
+
+* [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) (Sept 2019)
