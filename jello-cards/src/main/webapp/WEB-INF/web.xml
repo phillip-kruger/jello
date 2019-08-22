@@ -79,6 +79,21 @@
         </auth-constraint>
     </security-constraint>
     
+    <!-- For the SOAP Endpoint -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All Jax-ws resources</web-resource-name>
+            <url-pattern>/CardSoapApi</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>    
+    
     <!-- JSF Admin Web GUI -->
     <security-constraint>
         <web-resource-collection>

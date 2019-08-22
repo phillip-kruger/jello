@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="d9990b8d-6b3f-42d5-8f6c-fc717a4ac4b7" activeEnvironment="Default" name="Jello" resourceRoot="" soapui-version="5.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="f4de51a7-c6f7-44fa-b4e0-a79e36e8dbdf" wsaVersion="NONE" name="CardSoapApiServiceSoapBinding" type="wsdl" bindingName="{http://api.jello.phillipkruger.github.com/}CardSoapApiServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/cards/CardSoapApi?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/cards/CardSoapApi?wsdl"><con:part><con:url>http://localhost:8080/cards/CardSoapApi?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="CardSoapApiService" targetNamespace="http://api.jello.phillipkruger.github.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://api.jello.phillipkruger.github.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://api.jello.phillipkruger.github.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="card" type="tns:card"/>
+      <xs:element name="comment" type="tns:comment"/>
+      <xs:element name="createCard" type="tns:createCard"/>
+      <xs:element name="createCardResponse" type="tns:createCardResponse"/>
+      <xs:element name="getCard" type="tns:getCard"/>
+      <xs:element name="getCardResponse" type="tns:getCardResponse"/>
+      <xs:element name="removeCard" type="tns:removeCard"/>
+      <xs:element name="removeCardResponse" type="tns:removeCardResponse"/>
+      <xs:element name="updateCard" type="tns:updateCard"/>
+      <xs:element name="updateCardResponse" type="tns:updateCardResponse"/>
+      <xs:complexType name="getCard">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getCardResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:card"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="card">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:comment"/>
+          <xs:element minOccurs="0" name="swimlane" type="tns:swimlane"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:long" use="required"/>
+        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="created" type="xs:string"/>
+        <xs:attribute name="createdBy" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="comment">
+        <xs:sequence/>
+        <xs:attribute name="id" type="xs:long" use="required"/>
+        <xs:attribute name="comment" type="xs:string" use="required"/>
+        <xs:attribute name="madeOn" type="xs:string"/>
+        <xs:attribute name="madeBy" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="createCard">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:card"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createCardResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:card"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeCard">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="removeCardResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="updateCard">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:card"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateCardResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:card"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="swimlane">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="pipeline"/>
+          <xs:enumeration value="development"/>
+          <xs:enumeration value="testing"/>
+          <xs:enumeration value="release"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCard">
+    <wsdl:part element="tns:getCard" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCardResponse">
+    <wsdl:part element="tns:createCardResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCardResponse">
+    <wsdl:part element="tns:getCardResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCardResponse">
+    <wsdl:part element="tns:updateCardResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCard">
+    <wsdl:part element="tns:createCard" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCardResponse">
+    <wsdl:part element="tns:removeCardResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCard">
+    <wsdl:part element="tns:updateCard" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCard">
+    <wsdl:part element="tns:removeCard" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CardApi">
+    <wsdl:operation name="getCard">
+      <wsdl:input message="tns:getCard" name="getCard"></wsdl:input>
+      <wsdl:output message="tns:getCardResponse" name="getCardResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCard">
+      <wsdl:input message="tns:createCard" name="createCard"></wsdl:input>
+      <wsdl:output message="tns:createCardResponse" name="createCardResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeCard">
+      <wsdl:input message="tns:removeCard" name="removeCard"></wsdl:input>
+      <wsdl:output message="tns:removeCardResponse" name="removeCardResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCard">
+      <wsdl:input message="tns:updateCard" name="updateCard"></wsdl:input>
+      <wsdl:output message="tns:updateCardResponse" name="updateCardResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CardSoapApiServiceSoapBinding" type="tns:CardApi">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CardSoapApiService">
+    <wsdl:port binding="tns:CardSoapApiServiceSoapBinding" name="CardSoapApiPort">
+      <soap:address location="http://localhost:8080/cards/CardSoapApi"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/cards/CardSoapApi</con:endpoint></con:endpoints><con:operation id="1f00e823-c0e0-47a3-8c58-0bd972562029" isOneWay="false" action="" name="createCard" bindingOperationName="createCard" type="Request-Response" outputName="createCardResponse" inputName="createCard" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9ecbe026-13c6-41f6-96f8-09a46314f876" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="jello.api.key" value="Tv1Bspv9ZYuy+EcUvmRaKklR87j3Kbpa6jGWHyo/j/jaG89YABstWfekY5d/pgdgz1isIf/kFQPjg31RU/LdNA==" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cards/CardSoapApi</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.jello.phillipkruger.github.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:createCard>
+         <!--Optional:-->
+         <arg0 title="Soap" description="test from soap"/>
+      </api:createCard>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>charmaine.kruger@gmail.com</con:username><con:password>charmaine.kruger@gmail.com</con:password><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.jello.phillipkruger.github.com/CardApi/createCard"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="cc39ad47-88ec-40ba-bf1a-0122a86f8346" isOneWay="false" action="" name="getCard" bindingOperationName="getCard" type="Request-Response" outputName="getCardResponse" inputName="getCard" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="b164f369-1556-4680-9c67-9639ac9249d5" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cards/CardSoapApi</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.jello.phillipkruger.github.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:getCard>
+         <!--Optional:-->
+         <arg0>1</arg0>
+      </api:getCard>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.jello.phillipkruger.github.com/CardApi/getCard"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="a34eadc9-8674-4258-9aed-8b28a1497614" isOneWay="false" action="" name="removeCard" bindingOperationName="removeCard" type="Request-Response" outputName="removeCardResponse" inputName="removeCard" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="894632a1-4bc5-4eac-a899-f5ea7dff0c91" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cards/CardSoapApi</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.jello.phillipkruger.github.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:removeCard>
+         <!--Optional:-->
+         <arg0>1</arg0>
+      </api:removeCard>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.jello.phillipkruger.github.com/CardApi/removeCard"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="fbca79a0-f3b8-4655-a700-20e2fbbcafda" isOneWay="false" action="" name="updateCard" bindingOperationName="updateCard" type="Request-Response" outputName="updateCardResponse" inputName="updateCard" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ba78db8d-8c7b-49ac-8d9f-f3bf4827b0bc" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cards/CardSoapApi</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.jello.phillipkruger.github.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:updateCard>
+         <!--Optional:-->
+         <arg0 id="?" title="?" description="?" created="?" createdBy="?">
+            <!--Zero or more repetitions:-->
+            <api:comment id="?" comment="?" madeOn="?" madeBy="?"/>
+            <!--Optional:-->
+            <swimlane>?</swimlane>
+         </arg0>
+      </api:updateCard>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.jello.phillipkruger.github.com/CardApi/updateCard"/></con:call></con:operation></con:interface><con:interface xsi:type="con:RestService" id="72d2eedf-8ce5-4452-9ece-af828bf7019b" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://localhost:8080</con:endpoint></con:endpoints><con:resource name="Card" path="/cards/api/card/1" id="820f3f21-b65b-4c0c-a9ed-0b318bdaab4c"><con:settings/><con:parameters/><con:method name="Card 1" id="96672521-bf6b-4a3b-80fb-b6a81c349a53" method="GET"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html;charset=UTF-8</con:mediaType><con:status>401</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:ns="http://localhost/cards/api/card/1">ns:Response</con:element></con:representation><con:request name="Request 1" id="d69aa8df-44bb-492b-8edf-3c0dbcc2f004" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="jello.api.key" value="Tv1Bspv9ZYuy+EcUvmRaKryIMCDwoujY66c647KAub1iRXzob9t204zdHoMwhV99vHVjudWUpAqBfshJVCKxbA==" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/cards/api/card/1</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
