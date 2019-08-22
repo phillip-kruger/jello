@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.extern.java.Log;
 
 /**
- * Controller for language (i18n)
+ * JSF. Controller for language (i18n)
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

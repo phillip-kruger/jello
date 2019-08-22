@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represent a comment on a card
+ * JPA, JAXB, JSON-B, Bean Validation. Represent a comment on a card
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Data @AllArgsConstructor @NoArgsConstructor

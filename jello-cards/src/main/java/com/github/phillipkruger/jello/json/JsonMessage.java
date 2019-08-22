@@ -20,7 +20,7 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.stream.JsonGenerator;
 
 /**
- * Create the correct Json message to be added to the Queue
+ * JSON-P, JSON-B, CDI. Create the correct Json message to be added to the Queue
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @ApplicationScoped

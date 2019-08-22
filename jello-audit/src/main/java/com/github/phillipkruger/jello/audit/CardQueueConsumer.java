@@ -16,7 +16,7 @@ import javax.json.JsonReader;
 import lombok.extern.java.Log;
 
 /**
- * Receive a Card message
+ * JMS. Receive a Card message
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

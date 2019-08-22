@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
 import lombok.extern.java.Log;
 
 /**
- * Controller for the audit log
+ * MVC. Controller for the audit log
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

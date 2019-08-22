@@ -7,7 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
- * Configure the MVC Application
+ * MVC. Configure the MVC Application
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 //@BasicAuthenticationMechanismDefinition(realmName = "Audit")

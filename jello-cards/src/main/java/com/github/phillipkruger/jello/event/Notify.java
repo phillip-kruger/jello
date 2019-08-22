@@ -10,7 +10,7 @@ import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
 
 /**
- * An annotation that will indicate that we should send a notification
+ * Interceptor. An annotation that will indicate that we should send a notification
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Inherited

@@ -15,6 +15,5 @@ import lombok.NoArgsConstructor;
 @ApplicationScoped
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Status implements Serializable {
-    
     private boolean connected = false;
 }

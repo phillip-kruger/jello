@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 
 /**
- * Web based username and password for the JSF screen and token based for API
+ * Security, CDI. Web based username and password for the JSF screen and token based for API
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.extern.java.Log;
 
 /**
- * Login Controller.
+ * JSF. Login Controller.
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

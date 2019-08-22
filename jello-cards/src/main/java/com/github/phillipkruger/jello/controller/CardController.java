@@ -31,7 +31,7 @@ import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 
 /**
- * Controller for cards
+ * JSF. Controller for cards
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

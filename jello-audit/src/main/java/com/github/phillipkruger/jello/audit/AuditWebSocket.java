@@ -16,7 +16,7 @@ import javax.websocket.server.ServerEndpoint;
 import lombok.extern.java.Log;
 
 /**
- * Endpoint for the websocket service
+ * Websocket. Endpoint for the websocket service
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

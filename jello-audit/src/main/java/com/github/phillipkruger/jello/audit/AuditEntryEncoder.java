@@ -6,7 +6,7 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 /**
- * Encoder that can encode AuditEntry to be streamed over WebSockets
+ * Websocket. Encoder that can encode AuditEntry to be streamed over WebSockets
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 public class AuditEntryEncoder implements Encoder.Text<AuditEntry> {

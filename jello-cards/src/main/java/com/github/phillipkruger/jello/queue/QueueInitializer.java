@@ -7,7 +7,7 @@ import javax.jms.Queue;
 import lombok.extern.java.Log;
 
 /**
- * Create the queue and expose as CDI resource
+ * JMS, CDI. Create the queue and expose as CDI resource
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log

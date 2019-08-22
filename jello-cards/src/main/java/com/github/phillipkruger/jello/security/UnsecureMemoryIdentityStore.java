@@ -12,8 +12,8 @@ import javax.security.enterprise.identitystore.IdentityStore;
 import lombok.extern.java.Log;
 
 /**
- * This store basically allow anyone in as long as the username
- * is a email address and the password is the same
+ * Security. This store basically allow anyone in as long as the username
+ * is a email address and the password is the same.
  * Not very secure :)
  * 
  * @author Phillip Kruger (phillip.kruger@redhat.com)

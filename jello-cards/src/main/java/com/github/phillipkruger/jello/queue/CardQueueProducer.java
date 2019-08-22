@@ -12,7 +12,7 @@ import javax.jms.Queue;
 import javax.security.enterprise.SecurityContext;
 
 /**
- * Put a Card on the queue
+ * JMS, CDI, Security. Put a Card on the queue
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Stateless

@@ -22,7 +22,7 @@ import javax.validation.constraints.Min;
 import lombok.extern.java.Log;
 
 /**
- * Service in front of the data storage
+ * JPA, CDI, Security. Service in front of the data storage
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @RequestScoped
@@ -62,7 +62,7 @@ public class CardService {
 
     @Notify(ChangeEventType.delete)
     @Transactional
-    @RolesAllowed("admin")
+    @RolesAllowed("user")
     public void removeCard(@NotNull Card card) {
         if (!em.contains(card))card = em.merge(card);
         em.remove(card);
