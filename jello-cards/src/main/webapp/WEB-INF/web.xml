@@ -67,23 +67,21 @@
         <env-entry-value>admin,nova-light,nova-dark,nova-colored,luna-blue,luna-amber,luna-green,luna-pink,omega</env-entry-value>
     </env-entry>
     
-    <!-- For the REST Endpoints -->
     <security-constraint>
+        <!-- For the REST Endpoints -->
         <web-resource-collection>
             <web-resource-name>All Jax-rs resources</web-resource-name>
             <url-pattern>/api/*</url-pattern>
         </web-resource-collection>
-        <auth-constraint>
-            <role-name>user</role-name>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
-    <!-- For the SOAP Endpoint -->
-    <security-constraint>
+        <!-- For the SOAP Endpoint -->
         <web-resource-collection>
             <web-resource-name>All Jax-ws resources</web-resource-name>
             <url-pattern>/CardSoapApi</url-pattern>
+        </web-resource-collection>
+        <!-- JSF Admin Web GUI -->
+        <web-resource-collection>
+            <web-resource-name>JSF Screen</web-resource-name>
+            <url-pattern>/board.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>user</role-name>
@@ -93,18 +91,6 @@
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>    
-    
-    <!-- JSF Admin Web GUI -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>JSF</web-resource-name>
-            <url-pattern>/board.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>user</role-name>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
       
     <security-role>
         <role-name>user</role-name>

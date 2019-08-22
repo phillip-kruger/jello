@@ -11,6 +11,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.json.stream.JsonParsingException;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.authentication.mechanism.http.AutoApplySession;
@@ -56,20 +57,18 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
 
     private AuthenticationStatus tokenAuthentication(HttpServletRequest request, HttpMessageContext httpMessageContext){
         final String key = request.getHeader(TOKEN_HEADER);
-        if (key != null) {
-            try {
-                Token token = tokenHelper.decrypt(key);
-                if(token!=null && token.getUser()!=null){
-                    return httpMessageContext.notifyContainerAboutLogin(
-                        token.getUser(), new HashSet<>(token.getGroups()));
-                }
-            }catch(InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e){
-                // At any error, we do not allow access.
-                httpMessageContext.responseUnauthorized();
+        try {
+            Token token = tokenHelper.decrypt(key);
+            if(token!=null && token.getUser()!=null){
+                return httpMessageContext.notifyContainerAboutLogin(
+                    token.getUser(), new HashSet<>(token.getGroups()));
+            }else{
+                return httpMessageContext.responseUnauthorized();
             }
+        }catch(JsonParsingException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e){
+            // At any error, we do not allow access.
+            return httpMessageContext.responseUnauthorized();
         }
-        return httpMessageContext.responseUnauthorized();
-        
     }
     
     // Form based used in GUI
