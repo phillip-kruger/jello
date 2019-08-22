@@ -17,12 +17,14 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Ignore;
 
 /**
  * Testing Card service via SOAP
  *
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
+@Ignore
 public class CardSoapApiTest extends Arquillian {
 
     @ArquillianResource
