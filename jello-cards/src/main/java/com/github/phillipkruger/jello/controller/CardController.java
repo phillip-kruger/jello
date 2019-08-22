@@ -2,9 +2,11 @@ package com.github.phillipkruger.jello.controller;
 
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.Comment;
+import com.github.phillipkruger.jello.Quote;
 import com.github.phillipkruger.jello.Swimlane;
 import com.github.phillipkruger.jello.security.token.TokenHelper;
 import com.github.phillipkruger.jello.service.CardService;
+import com.github.phillipkruger.jello.service.QuoteService;
 import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -45,6 +47,9 @@ public class CardController implements Serializable {
     @Inject
     private CardService cardService; 
     
+    @Inject
+    private QuoteService quoteService;
+    
     @Getter
     private List<Card> cards = new ArrayList<>();
     
@@ -59,6 +64,9 @@ public class CardController implements Serializable {
     
     @Getter
     private String apiKey;
+    
+    @Getter
+    private Quote quote;
     
     @Getter
     private final DashboardModel model = new DefaultDashboardModel();
@@ -87,6 +95,11 @@ public class CardController implements Serializable {
         }
     }
     
+    // Quote of the day
+    public void viewQuoteDialog(){
+        quote = quoteService.getQuote();
+        showDialog("quoteDialog");
+    }
     
     // API Key
     public void viewApiKeyDialog(){
