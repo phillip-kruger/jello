@@ -1,6 +1,5 @@
 package com.github.phillipkruger.jello.audit.view;
 
-import java.net.URL;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mvc.Controller;
@@ -35,7 +34,6 @@ public class LogController {
     @View("log.jsp")
     public void getLog(){
         models.put("webSocketEndpointURL", webSocketEndpointURL);
-        log.severe(">>>>>>>>>>>>>> webSocketEndpointURL = "  + webSocketEndpointURL);
     }
     
     @POST
