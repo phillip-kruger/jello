@@ -62,12 +62,3 @@ You can make it your own or use it as is. You are also welcome to improve the ta
 ### Known presentations
 
 * [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) (Sept 2019)
-
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQuc9ez8WLZfdkO8YgqRfo4erP2hBfnF_cgA3TikkrSIRoDJQDeP8IreNDj12NDOILGKzPtIy1jVo3-/embed?start=true&loop=true&delayms=3000" 
-        frameborder="0" 
-        width="960" 
-        height="569" 
-        allowfullscreen="true" 
-        mozallowfullscreen="true" 
-        webkitallowfullscreen="true">
-</iframe>
