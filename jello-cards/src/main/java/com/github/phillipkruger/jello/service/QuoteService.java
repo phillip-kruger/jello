@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.cache.annotation.CacheResult;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -28,14 +27,13 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * Jax-rs, JAXP. Get a quote for the day from an online service
+ * Jax-rs, JAXP, JCache. Get a quote for the day from an online service
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @RequestScoped
 @Log
 public class QuoteService {
 
-    @GET 
     @CacheResult(cacheName = "quoteCache")
     public Quote getQuote(){
         WebTarget target = client.target("http://api.forismatic.com/api/1.0/");

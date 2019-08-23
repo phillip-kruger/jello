@@ -9,7 +9,7 @@ import javax.cache.annotation.GeneratedCacheKey;
 import org.jsr107.ri.annotations.DefaultGeneratedCacheKey;
 
 /**
- * How to get the cache key from the Card Object
+ * JCache. How to get the cache key from the Card Object
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 public class CardCacheKeyGenerator implements CacheKeyGenerator {

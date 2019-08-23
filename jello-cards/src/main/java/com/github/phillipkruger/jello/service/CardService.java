@@ -28,13 +28,13 @@ import javax.validation.constraints.Min;
 import lombok.extern.java.Log;
 
 /**
- * JPA, CDI, Security. Service in front of the data storage
+ * JPA, CDI, Security, JCache. Service in front of the data storage
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @RequestScoped
 @Log
 @DeclareRoles({"admin","user"})
-@CacheDefaults(cacheName = "quoteCache")
+@CacheDefaults(cacheName = "cardCache")
 public class CardService {
     
     @PersistenceContext(name="com.github.phillipkruger.cards")
