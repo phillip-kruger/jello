@@ -74,7 +74,7 @@ public class CardService {
     @Transactional
     @RolesAllowed("user")
     @CacheRemove(cacheKeyGenerator = CardCacheKeyGenerator.class)
-    public void removeCard(@NotNull @CacheValue Card card) {
+    public void removeCard(@NotNull Card card) {
         if (!em.contains(card))card = em.merge(card);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", JsonbBuilder.create().toJson(card));

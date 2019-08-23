@@ -180,7 +180,6 @@
             </build>
         </profile>
         
-        
         <!-- For test cases as part of default build -->
         <profile>
             <id>arquillian</id>

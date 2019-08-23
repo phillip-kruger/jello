@@ -89,19 +89,19 @@
             <web-resource-name>JSF Screen</web-resource-name>
             <url-pattern>/board.xhtml</url-pattern>
         </web-resource-collection>
-        <auth-constraint>
+<!--        <auth-constraint>
             <role-name>user</role-name>
             <role-name>admin</role-name>
-        </auth-constraint>
+        </auth-constraint>-->
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>    
       
-    <security-role>
+<!--    <security-role>
         <role-name>user</role-name>
     </security-role>
     <security-role>
         <role-name>admin</role-name>
-    </security-role>
+    </security-role>-->
 </web-app>
