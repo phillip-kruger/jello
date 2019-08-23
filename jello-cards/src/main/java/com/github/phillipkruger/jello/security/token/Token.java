@@ -1,7 +1,7 @@
 package com.github.phillipkruger.jello.security.token;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Token {
     private String user;
-    private List<String> groups = new ArrayList<>();
+    private Set<String> groups = new HashSet<>();
     
     public void addGroup(String group){
         this.groups.add(group);

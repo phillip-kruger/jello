@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.12.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <instance-name>quoteInstance</instance-name>
+    
+    <cache name="quoteCache">
+        <key-type class-name="java.lang.Object"></key-type>
+        <value-type class-name="java.lang.Object"></value-type>
+        <statistics-enabled>false</statistics-enabled>
+        <management-enabled>false</management-enabled>
+        <expiry-policy-factory>
+            <timed-expiry-policy-factory expiry-policy-type="CREATED" duration-amount="43200" time-unit="SECONDS"/><!-- 12 hours -->
+        </expiry-policy-factory>
+    </cache>
+
+    <cache name="cardCache">
+        <key-type class-name="java.lang.Object"></key-type>
+        <value-type class-name="java.lang.Object"></value-type>
+        <statistics-enabled>false</statistics-enabled>
+        <management-enabled>false</management-enabled>
+        <expiry-policy-factory>
+            <timed-expiry-policy-factory expiry-policy-type="CREATED" duration-amount="30" time-unit="SECONDS"/>
+        </expiry-policy-factory>
+    </cache>
+    
+</hazelcast>
+    

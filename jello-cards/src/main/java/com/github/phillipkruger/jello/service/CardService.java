@@ -2,13 +2,19 @@ package com.github.phillipkruger.jello.service;
 
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.Comment;
-import com.github.phillipkruger.jello.Swimlane;
+import com.github.phillipkruger.jello.cache.CardCacheKeyGenerator;
 import com.github.phillipkruger.jello.event.ChangeEventType;
 import com.github.phillipkruger.jello.event.Notify;
 import java.util.List;
 import java.util.logging.Level;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
+import javax.cache.annotation.CacheDefaults;
+import javax.cache.annotation.CacheKey;
+import javax.cache.annotation.CachePut;
+import javax.cache.annotation.CacheRemove;
+import javax.cache.annotation.CacheResult;
+import javax.cache.annotation.CacheValue;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
@@ -28,6 +34,7 @@ import lombok.extern.java.Log;
 @RequestScoped
 @Log
 @DeclareRoles({"admin","user"})
+@CacheDefaults(cacheName = "quoteCache")
 public class CardService {
     
     @PersistenceContext(name="com.github.phillipkruger.cards")
@@ -39,7 +46,8 @@ public class CardService {
     @Notify(ChangeEventType.create)
     @Transactional
     @RolesAllowed("user")
-    public Card createCard(@NotNull Card card) {
+    @CachePut( cacheKeyGenerator = CardCacheKeyGenerator.class)
+    public Card createCard(@NotNull @CacheValue Card card) {
         decorateWithUser(card);
         em.persist(card);
         log.log(Level.INFO, "Created card [{0}]", JsonbBuilder.create().toJson(card));
@@ -47,7 +55,9 @@ public class CardService {
     }
     
     @RolesAllowed("user")
-    public Card getCard(@NotNull @Min(value = 0L) Long id) {
+    @CacheResult
+    public Card getCard(@NotNull @Min(value = 0L) @CacheKey Long id) {
+        log.log(Level.INFO, "Retrieving cards with Id [{0}]", id);
         return em.find(Card.class, id);
     }
     
@@ -63,7 +73,8 @@ public class CardService {
     @Notify(ChangeEventType.delete)
     @Transactional
     @RolesAllowed("user")
-    public void removeCard(@NotNull Card card) {
+    @CacheRemove(cacheKeyGenerator = CardCacheKeyGenerator.class)
+    public void removeCard(@NotNull @CacheValue Card card) {
         if (!em.contains(card))card = em.merge(card);
         em.remove(card);
         log.log(Level.INFO, "Removing card [{0}]", JsonbBuilder.create().toJson(card));
@@ -72,7 +83,8 @@ public class CardService {
     @Notify(ChangeEventType.update)
     @Transactional
     @RolesAllowed("user")
-    public Card updateCard(@NotNull Card card) {
+    @CachePut(cacheKeyGenerator = CardCacheKeyGenerator.class)
+    public Card updateCard(@NotNull @CacheValue Card card) {
         decorateWithUser(card);
         card = em.merge(card);
         log.log(Level.INFO, "Updated card [{0}]", JsonbBuilder.create().toJson(card));
@@ -84,15 +96,6 @@ public class CardService {
         return em.createNamedQuery(Card.QUERY_FIND_ALL, Card.class).getResultList();
     }
 
-    @RolesAllowed("user")
-    public List<Card> getAllCardsInSwimlane(Swimlane swimlane) {
-        List<Card> cards = (List<Card>)em.createNamedQuery(Card.QUERY_FIND_ALL_IN_SWIMLANE,Card.class)
-					.setParameter("swimlane", swimlane)
-					.getResultList();
-        
-        return cards;
-    }
-    
     private void decorateWithUser(Card card){
         if(securityContext.getCallerPrincipal()!=null){
             String username = securityContext.getCallerPrincipal().getName();

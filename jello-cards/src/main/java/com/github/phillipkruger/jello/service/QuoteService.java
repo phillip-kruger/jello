@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.cache.annotation.CacheResult;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.client.Client;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
 public class QuoteService {
 
     @GET 
-    //@CacheResult(cacheName = "quoteCache")
+    @CacheResult(cacheName = "quoteCache")
     public Quote getQuote(){
         WebTarget target = client.target("http://api.forismatic.com/api/1.0/");
 
@@ -64,7 +65,8 @@ public class QuoteService {
             //  <quote>
             //      <quoteText>When we seek to discover the best in others, we somehow bring out the best in ourselves.</quoteText>
             //      <quoteAuthor>William Ward</quoteAuthor>
-            //      <senderName></senderName><senderLink></senderLink>
+            //      <senderName></senderName>
+            //      <senderLink></senderLink>
             //      <quoteLink>http://forismatic.com/en/6501e54f45/</quoteLink>
             //  </quote>
             //</forismatic>

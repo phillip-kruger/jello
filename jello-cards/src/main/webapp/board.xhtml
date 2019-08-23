@@ -42,7 +42,6 @@
         <h:panelGroup layout="block" id="main">
             <h:form>  
                 <p:menubar>
-                    <p:menuitem value="#{i18n['home']}" url="#{request.contextPath}/" icon="fa fa-home" />
                     <p:menuitem value="#{i18n['create']}" action="#{cardController.viewCreateDialog()}" icon="fa fa-plus" update="main"/>
                     <p:submenu label="#{i18n['language']}" icon="fa fa-globe">
                         <c:forEach var="locale" items="#{languageController.availableLocales}">

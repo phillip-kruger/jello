@@ -1,5 +1,6 @@
 package com.github.phillipkruger.jello;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Quote {
+public class Quote implements Serializable {
     private String text;
     private String author;
 }

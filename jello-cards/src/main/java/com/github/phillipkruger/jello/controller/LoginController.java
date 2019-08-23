@@ -34,8 +34,9 @@ public class LoginController {
     
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String applicationContextPath = externalContext.getApplicationContextPath();
         ((HttpSession) externalContext.getSession(false)).invalidate();
-        externalContext.redirect("index.xhtml");
+        externalContext.redirect(applicationContextPath);
     }
     
     public String getLoggedInUser(){
