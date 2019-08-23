@@ -54,7 +54,7 @@
         <!-- Jakarta EE Platform -->        
         <jakartaee.version>8.0.1</jakartaee.version>        
         <lombok.version>1.18.8</lombok.version>
-        <jcache.version>1.1.1</jcache.version>
+        
         <!-- Testing -->
         <arquillian.version>1.4.1.Final</arquillian.version>
         <resteasy.version>4.1.1.Final</resteasy.version>
@@ -80,12 +80,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
-            </dependency>
-            <!-- JCache -->
-            <dependency>
-                <groupId>javax.cache</groupId>
-                <artifactId>cache-api</artifactId>
-                <version>${jcache.version}</version>
             </dependency>
             
             <!-- Arquillian BOM -->
