@@ -86,6 +86,7 @@
     </dependencies>
     
     <build>
+        <finalName>cards</finalName>
         <plugins>
             
             <!-- To run one test at a time (else port clash) -->
@@ -125,7 +126,7 @@
             </dependencies>
                     
             <build>
-                <finalName>cards</finalName>
+                
                 <plugins>
         
                     <plugin>
@@ -190,7 +191,6 @@
             </dependencies>
             
             <build>
-                <finalName>cards</finalName>
                 <resources>
                     <resource>
                         <directory>${basedir}/src/main/liberty/config</directory>
@@ -268,12 +268,97 @@
             </build>
         </profile>
         
+        <profile>
+            <id>payara</id>
+            
+            <properties>
+                <servlet.port>8080</servlet.port>
+
+                <payara.adminPort>4848</payara.adminPort>
+                <payara.username>admin</payara.username>
+                <payara.password></payara.password>
+                <payara.hostname>localhost</payara.hostname>
+                <payara.domainName>domain1</payara.domainName>
+                <payara.home>${project.build.directory}/payara5</payara.home>
+                <payara.domainDir>${payara.home}/glassfish/domains</payara.domainDir>
+            </properties>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>1</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>fish.payara.distributions</groupId>
+                                    <artifactId>payara</artifactId>
+                                    <version>5.192</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <version>1.7.7</version>
+                        <executions>
+                            <execution>
+                                <id>2</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <container>
+                                <containerId>glassfish5x</containerId>
+                                <type>installed</type>
+                                <home>${payara.home}</home>
+                            </container>
+                            <configuration>
+                                <type>existing</type>
+                                <home>${payara.domainDir}</home>    				
+                                <properties>
+                                    <cargo.remote.username>${payara.username}</cargo.remote.username>
+                                    <cargo.remote.password>${payara.password}</cargo.remote.password>
+                                    <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
+                                    <cargo.hostname>${payara.hostname}</cargo.hostname>
+                                    <cargo.glassfish.domain.name>${payara.domainName}</cargo.glassfish.domain.name>
+                                </properties>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+        
         <!-- For test cases as part of default build -->
         <profile>
             <id>arquillian</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             
             <dependencies>
                 <!-- Rest client used in the test cases -->

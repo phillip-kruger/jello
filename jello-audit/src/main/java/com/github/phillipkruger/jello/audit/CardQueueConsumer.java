@@ -24,7 +24,7 @@ import lombok.extern.java.Log;
     @ActivationConfigProperty(propertyName = "destinationType",
                               propertyValue = "javax.jms.Queue"),
     @ActivationConfigProperty(propertyName = "destination",
-            propertyValue = "java:app/cardQueue")
+            propertyValue = "cardQueue")
 })
 public class CardQueueConsumer implements MessageListener {
     

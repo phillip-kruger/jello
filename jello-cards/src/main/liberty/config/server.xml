@@ -25,9 +25,10 @@
     </messagingEngine>
     
     <jmsActivationSpec id="audit/cardQueueMDB">
-        <properties.wasJms destinationRef="java:app/cardQueue" />
+        <properties.wasJms destinationRef="cardQueue" />
     </jmsActivationSpec>
     
+    <!--<jmsDestination id="cardQueue" jndiName="java:app/cardQueue"/>-->
     
     <dataSource id="DefaultDataSource" jdbcDriverRef="DerbyEmbedded">
         <properties.derby.embedded createDatabase="create" databaseName="${server.config.dir}/data"/>
