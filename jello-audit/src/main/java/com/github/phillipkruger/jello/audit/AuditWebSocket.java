@@ -41,12 +41,6 @@ public class AuditWebSocket {
     public void onOpen(Session session){
         sessions.add(session);
         log.log(Level.INFO, "Session joined [{0}]", session.getId());
-        
-        // Use Cache and send all audit ?
-//        List<Card> cards = cardService.getAllCards();
-//        for(Card card : cards){
-//            sendCard(session,card);
-//        }
     }
 
     @OnClose

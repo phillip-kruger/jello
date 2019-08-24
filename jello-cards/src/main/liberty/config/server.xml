@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="activemq test server">
+ 
+    <!-- Enable features -->
+    <featureManager>
+        <feature>javaee-8.0</feature>
+    </featureManager>
+ 
+    <httpEndpoint id="defaultHttpEndpoint"
+        httpPort="${httpPort}"
+        httpsPort="${httpsPort}"/>
+ 
+    <httpSession idLength="44" />
+    
+    <applicationManager autoExpand="true" />
+
+    <keyStore id="defaultKeyStore" password="0p3nL1b3ry"/>
+    
+    <basicRegistry id="basic" realm="ibm/api">
+        <user name="guest" password="0p3nL1b3ry" />
+    </basicRegistry> 
+    
+    <messagingEngine>
+        <queue id="cardQueue" />
+    </messagingEngine>
+    
+    <jmsActivationSpec id="audit/cardQueueMDB">
+        <properties.wasJms destinationRef="java:app/cardQueue" />
+    </jmsActivationSpec>
+    
+    
+    <dataSource id="DefaultDataSource" jdbcDriverRef="DerbyEmbedded">
+        <properties.derby.embedded createDatabase="create" databaseName="${server.config.dir}/data"/>
+    </dataSource>
+    <jdbcDriver id="DerbyEmbedded" libraryRef="DerbyLib"/>
+    <library id="DerbyLib">
+        <file name="${derby.driver}"/>
+    </library>
+
+    <ejbContainer> 
+        <timerService nonPersistentMaxRetries="0"/>    
+    </ejbContainer>
+
+    <ejbContainer> 
+        <timerService nonPersistentMaxRetries="0"/>    
+    </ejbContainer>
+    
+    <application location="${app}"/>
+ 
+ </server>

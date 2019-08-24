@@ -19,10 +19,16 @@
         <location>/</location>
     </error-page>
 
+    <!-- Needed in OpenLiberty -->
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+    
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <!--<param-value>Production</param-value>-->
-        <param-value>Development</param-value>
+        <param-value>Production</param-value>
+        <!--<param-value>Development</param-value>-->
     </context-param>
 
     <context-param>
@@ -46,15 +52,6 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <data-source>
-        <name>java:jboss/datasources/JelloDS</name>
-        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
-        <url>jdbc:h2:mem:jello-database;DB_CLOSE_DELAY=-1</url>
-        <user>sa</user>
-        <password>""</password>
-        <transactional>true</transactional>
-    </data-source>
-    
     <env-entry>
         <env-entry-name>java:global/jcacheConfigFile</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
@@ -89,19 +86,19 @@
             <web-resource-name>JSF Screen</web-resource-name>
             <url-pattern>/board.xhtml</url-pattern>
         </web-resource-collection>
-<!--        <auth-constraint>
+        <auth-constraint>
             <role-name>user</role-name>
             <role-name>admin</role-name>
-        </auth-constraint>-->
+        </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>    
       
-<!--    <security-role>
+    <security-role>
         <role-name>user</role-name>
     </security-role>
     <security-role>
         <role-name>admin</role-name>
-    </security-role>-->
+    </security-role>
 </web-app>

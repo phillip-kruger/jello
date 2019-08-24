@@ -30,13 +30,6 @@
     </properties>
     
     <dependencies>
-        <!-- Database -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-        </dependency>
-        
         <!-- Used in JSF screens -->
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -128,8 +121,7 @@
                     <artifactId>hazelcast</artifactId>
                     <version>3.12.2</version>
                     <scope>runtime</scope>
-                </dependency>
-                
+                </dependency>    
             </dependencies>
                     
             <build>
@@ -176,6 +168,102 @@
                             </execution>
                         </executions>
                     </plugin>    
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>openliberty</id>
+            
+            <properties>
+                <derby.version>10.14.1.0</derby.version>
+            </properties>
+            
+            <!-- We need an JCache implementation -->
+            <dependencies>
+                <dependency>
+                    <groupId>com.hazelcast</groupId>
+                    <artifactId>hazelcast</artifactId>
+                    <version>3.12.2</version>
+                    <scope>runtime</scope>
+                </dependency>    
+            </dependencies>
+            
+            <build>
+                <finalName>cards</finalName>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/liberty/config</directory>
+                        <targetPath>${project.build.directory}</targetPath>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>server.xml</include>
+                        </includes>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                    </resource>
+                </resources>
+                
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+            
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>1</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <excludeScope>test</excludeScope>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.derby</groupId>
+                                    <artifactId>derby</artifactId>
+                                    <version>${derby.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/derby</outputDirectory>
+                                </artifactItem>
+                                
+                            </artifactItems>
+                        </configuration>
+                    </plugin>
+            
+                    <plugin>
+                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                        <artifactId>liberty-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <executions>
+                            <execution>
+                                <id>2</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <bootstrapProperties>
+                                <httpPort>8080</httpPort>
+                                <httpsPort>48080</httpsPort>
+                                <app>${project.build.directory}/${project.build.finalName}.war</app>
+                                <derby.driver>${project.build.directory}/derby/derby-${derby.version}.jar</derby.driver>
+                            </bootstrapProperties>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

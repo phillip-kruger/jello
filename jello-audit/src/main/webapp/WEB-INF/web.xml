@@ -4,28 +4,6 @@
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	 version="4.0">
     
-    <env-entry>
-        <env-entry-name>java:global/webSocketEndpointURL</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>ws://localhost:8080/audit/stream</env-entry-value>
-    </env-entry>
-    
-    <!-- For the MVC Endpoints -->
-<!--    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Audit</web-resource-name>
-            <url-pattern>/app</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>user</role-name>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-        
-    </security-constraint>-->
-    
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

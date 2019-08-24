@@ -1,5 +1,3 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -13,13 +11,13 @@
         <div class="ui page">
             <div class="ui mini menu">
                 <div class="header item">Jello: Audit log</div>
-                <a class="item" href="cards" target="_blank">
+                <a class="item" href="/cards" target="_blank">
                     Board
                 </a>
                 <div class="right menu">
                     
                     <div class="item">
-                        <button id="btnConnect" class="ui positive button" type="submit" onclick="connect()"><i class="linkify icon"></i></i> Connect</button>
+                        <button id="btnConnect" class="ui positive button" type="submit" onclick="connect()"><i class="linkify icon"></i> Connect</button>
                         <button id="btnDisconnect" class="ui negative button" type="submit" onclick="disconnect()"><i class="unlink icon"></i> Disconnect</button>  
                     </div>
                     
@@ -51,39 +49,9 @@
         <script type="text/javascript" src="webjars/fomantic-ui/dist/semantic.min.js"></script>
         <script>
             var webSocket;
-            
-            $('document').ready(function(){
-                
-                if(${status.connected}){
-                    connect();
-                }else{
-                    $("#btnDisconnect").hide();
-                }
-            });
-            
+            $("#btnDisconnect").hide();
+
             function connect(){
-                openSocket();
-                doAction("connect");
-                
-                $("#btnConnect").hide();
-                $("#btnDisconnect").show();
-                
-                $("#audittable").dimmer('hide');
-                toastMessage("Connect","Successfully connected to the Jello Card System");
-            }
-            
-            function disconnect(){
-                $("#btnDisconnect").hide();        
-                $("#btnConnect").show();
-                doAction("disconnect");
-                closeSocket();
-                
-                $("#audittable").dimmer('show');
-                
-                toastMessage("Disconnect","Successfully disconnected from the Jello Card System");
-            }
-            
-            function openSocket(){
                 // Ensures only one connection is open at a time
                 if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
                     toastMessage("Open connection","Already connected...");
@@ -97,8 +65,15 @@
                  * Binds functions to the listeners for the websocket.
                  */
                 webSocket.onopen = function(event){
+                    $("#btnConnect").hide();
+                    $("#btnDisconnect").show();
+                
+                    $("#audittable").dimmer('hide');
+                    toastMessage("Connect","Successfully connected to the Jello Card System");
+                
                     if(event.data === undefined)
                         return;
+                    
                 };
 
                 webSocket.onmessage = function(event){
@@ -116,15 +91,15 @@
 //                    console.log(json);
                     addRowAtTop(who,what,when,action,id,title,description,created,swimlane);
                 };
-
             }
             
-            function closeSocket(){
+            function disconnect(){
                 webSocket.close();
-            }
-    
-            function doAction(action){
-                $.post("", { action:action });
+                $("#btnDisconnect").hide();        
+                $("#btnConnect").show();
+                $("#audittable").dimmer('show');
+                
+                toastMessage("Disconnect","Successfully disconnected from the Jello Card System");
             }
     
             function addRowAtTop(who,what,when,action,id,title,description,created,swimlane) { 
@@ -162,20 +137,15 @@
             
             function getWsUrl(){
                 // Create a new instance of the websocket
-                var injected_uri = "${webSocketEndpointURL}";
-                if(isEmpty(injected_uri)){
-                    var loc = window.location, new_uri;
-                    if (loc.protocol === "https:") {
-                        new_uri = "wss:";
-                    } else {
-                        new_uri = "ws:";
-                    }
-                    new_uri += "//" + loc.host;
-                    new_uri += "/audit/stream";
-                    return new_uri;
-                }else{
-                    return injected_uri;
+                var loc = window.location, new_uri;
+                if (loc.protocol === "https:") {
+                    new_uri = "wss:";
+                } else {
+                    new_uri = "ws:";
                 }
+                new_uri += "//" + loc.host;
+                new_uri += "/audit/stream";
+                return new_uri;
             }
             
             function isEmpty(str) {
