@@ -359,6 +359,9 @@
         <!-- For test cases as part of default build -->
         <profile>
             <id>arquillian</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             
             <dependencies>
                 <!-- Rest client used in the test cases -->
@@ -372,6 +375,7 @@
                     <artifactId>resteasy-json-binding-provider</artifactId>
                     <scope>test</scope>
                 </dependency>
+                
                 
                 <!-- arquillian -->        
                 <dependency>
