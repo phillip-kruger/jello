@@ -17,10 +17,12 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -177,6 +179,21 @@ public class CardController implements Serializable {
     // Cancel dialog 
     public void handleDialogClose(CloseEvent event) {
         reset();
+    }
+    
+    public String getServerInfo(){
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        Object requestObj = context.getRequest();
+ 
+        if(requestObj instanceof HttpServletRequest) {
+            HttpServletRequest httpRequest = (HttpServletRequest)requestObj;
+            return getServerInfo(httpRequest);
+        }
+        return "";
+    }
+    
+    private String getServerInfo(HttpServletRequest request){
+        return request.getServletContext().getServerInfo();
     }
     
     private void checkSwimlane(Card c){
