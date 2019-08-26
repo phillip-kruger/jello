@@ -52,7 +52,7 @@
         
         
         <!-- Jakarta EE Platform -->        
-        <jakartaee.version>8.0.1</jakartaee.version>        
+        <jakartaee.version>8.0</jakartaee.version>        
         <lombok.version>1.18.8</lombok.version>
         
         <!-- Testing -->
