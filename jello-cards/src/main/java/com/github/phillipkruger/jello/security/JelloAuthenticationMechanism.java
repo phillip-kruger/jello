@@ -4,7 +4,6 @@ import com.github.phillipkruger.jello.security.token.Token;
 import com.github.phillipkruger.jello.security.token.TokenHelper;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
 import javax.annotation.security.DeclareRoles;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -50,10 +49,10 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
             return formLoginAuthentication(request,httpMessageContext);
         }else if (request.getHeader(TOKEN_HEADER) != null && httpMessageContext.isProtected()) {
             return tokenAuthentication(request,httpMessageContext);
-        }else if(!httpMessageContext.isProtected()){
-            return httpMessageContext.doNothing();
-        }else{
+        }else if(httpMessageContext.isProtected()){
             return httpMessageContext.responseUnauthorized();
+        }else{
+            return httpMessageContext.doNothing();
         }
     }
 
@@ -63,7 +62,7 @@ public class JelloAuthenticationMechanism implements HttpAuthenticationMechanism
             Token token = tokenHelper.decrypt(key);
             if(token!=null && token.getUser()!=null){
                 return httpMessageContext.notifyContainerAboutLogin(
-                    token.getUser(), new HashSet<>(token.getGroups()));
+                    token.getUser(), token.getGroups());
             }else{
                 return httpMessageContext.responseUnauthorized();
             }
