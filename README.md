@@ -5,7 +5,7 @@ This is an example application to demonstrate some of the APIs available under t
 
 ## High Level Overview
 
-![](https://raw.githubusercontent.com/phillip-kruger/jello/master/high-level.png)
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/high_level.png)
 
 ## Build
 
@@ -34,6 +34,12 @@ You can see the Web GUI here: http://localhost:8080/cards
 
 (Log in with any email, as long as the password is also that email)
 
+#### Log in screen
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_login.png)
+
+#### Board
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_board.png)
+
 ### Audit System
 The audit system receive change notifications from the Queue and then store it in cache.
 It also has a Websocket GUI to display the audit messages in realtime on the Screen.
@@ -47,6 +53,8 @@ mvn clean install -Pwildfly
 You can see the Web GUI here: http://localhost:8080/audit/app
 
 (Click on connect to start receiving messages)
+
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_audit.png)
 
 ## Demo
 
