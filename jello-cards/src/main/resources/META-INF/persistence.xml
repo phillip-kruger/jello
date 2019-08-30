@@ -3,7 +3,7 @@
     <persistence-unit name="com.github.phillipkruger.cards" transaction-type="JTA">
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
             <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
         </properties>

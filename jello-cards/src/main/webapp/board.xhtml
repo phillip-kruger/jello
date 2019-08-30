@@ -158,7 +158,7 @@
                             </h:panelGrid>
                             
                             <f:facet name="actions">
-                                <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.deleteCardDialog(card)}" update="main">
+                                <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.deleteCardDialog(card)}" update="main" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                                     <h:outputText styleClass="ui-icon fa fa-trash-o" title="#{i18n['delete']}"/>
                                 </p:commandLink>
                                 <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" action="#{cardController.editCardDialog(card)}" update="main">
@@ -271,7 +271,7 @@
             
             <!-- Delete Dialog -->
             <h:form>
-                <p:dialog id="deleteCardDialog" header="#{i18n['delete']} #{cardController.selectedCard.title}" widgetVar="deleteCardDialog" modal="true" draggable="true">
+                <p:dialog id="deleteCardDialog" header="#{i18n['delete']} #{cardController.selectedCard.title}" widgetVar="deleteCardDialog" modal="true" draggable="true" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                     <p:ajax event="close" listener="#{cardController.handleDialogClose}" update="growl" />
                     <p:panelGrid style="margin-top:20px" styleClass="ui-noborder">
 

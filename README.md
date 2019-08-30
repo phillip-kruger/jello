@@ -54,6 +54,25 @@ Once both systems is running, create new cards using the GUI in the card system,
 
 TODO: Add some scenarios
 
+### REST Examples
+
+`export JELLOKEY=<insert_key_here>`
+
+**Get all cards:**
+`curl -H "Content-Type: application/json" -i -H "jello.api.key:$JELLOKEY" http://localhost:8080/cards/api/card`
+
+**Create a card:**
+`curl -d '{"title": "Jax-rs","description": "Created from REST"}' -X POST -H "Content-Type: application/json" -i -H "jello.api.key:$JELLOKEY" http://localhost:8080/cards/api/card`
+
+**Update a card:**
+`curl -d '{"id": 1,"title": "Jax-rs","description": "Created from REST but updated","comments": [],"created": "2019-08-26T14:01","createdBy": "phillip.kruger@gmail.com","swimlane": "development"}' -X PUT -H "Content-Type: application/json" -i -H "jello.api.key:$JELLOKEY" http://localhost:8080/cards/api/card`
+
+**Get a card:**
+`curl -H "Content-Type: application/json" -i -H "jello.api.key:$JELLOKEY" http://localhost:8080/cards/api/card/1`
+
+**Delete a card:** 
+`curl -X DELETE -H "Content-Type: application/json" -i -H "jello.api.key:$JELLOKEY" http://localhost:8080/cards/api/card/1`
+
 ## Presentations
 
 If anyone is looking for a talk to give at your local meetups or conferences you are welcome to use all or parts of this demo and presentation. 

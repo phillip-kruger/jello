@@ -3,6 +3,7 @@ package com.github.phillipkruger.jello.api;
 import com.github.phillipkruger.jello.Card;
 import com.github.phillipkruger.jello.service.CardService;
 import java.net.URI;
+import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -62,6 +63,13 @@ public class CardRestApi {
         Card card = cardService.getCard(id);
         if(card!=null)cardService.removeCard(card);
         return Response.noContent().build();
+    }
+    
+    @GET
+    public Response getCards(){
+        List<Card> cards = cardService.getAllCards();
+        if(cards==null || cards.isEmpty())return Response.noContent().build();
+        return Response.ok(cards).build();
     }
     
     private URI getGetUri(Card card){

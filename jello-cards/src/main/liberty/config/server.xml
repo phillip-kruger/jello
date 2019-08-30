@@ -24,7 +24,7 @@
         <queue id="cardQueue" />
     </messagingEngine>
     
-    <jmsActivationSpec id="audit/cardQueueMDB">
+    <jmsActivationSpec id="audit/CardQueueConsumer">
         <properties.wasJms destinationRef="cardQueue"/>
     </jmsActivationSpec>
     
