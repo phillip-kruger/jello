@@ -5,7 +5,7 @@ This is an example application to demonstrate some of the APIs available under t
 
 ## High Level Overview
 
-TODO
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/high-level.png)
 
 ## Build
 
