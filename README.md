@@ -21,11 +21,20 @@ To run the applications:
 
 ### Card System
 This is the main system that host the Jello board. You can start the application 
-using maven:
+using maven running under Wildfly, Payara or OpenLiberty:
+
+#### Wildfly:
 
 ```shell
 cd jello-cards/
 mvn clean install -Pwildfly
+```
+
+#### Payara:
+
+```shell
+cd jello-cards/
+mvn clean install -Ppayara
 ```
 
 This will download (fisrt time only), install and start a Wildfly application server and deploy the app.
@@ -42,12 +51,21 @@ You can see the Web GUI here: http://localhost:8080/cards
 
 ### Audit System
 The audit system receive change notifications from the Queue and then store it in cache.
-It also has a Websocket GUI to display the audit messages in realtime on the Screen.
-You can start the application using maven:
+It also has a Websocket GUI to display the audit messages in real-time on the Screen.
+You can start the application using maven running under Wildfly, Payara or OpenLiberty:
+
+#### Wildfly:
 
 ```shell
 cd jello-audit/
 mvn clean install -Pwildfly
+```
+
+#### Payara:
+
+```shell
+cd jello-audit/
+mvn clean install -Ppayara
 ```
 
 You can see the Web GUI here: http://localhost:8080/audit/app
@@ -63,6 +81,8 @@ Once both systems is running, create new cards using the GUI in the card system,
 TODO: Add some scenarios
 
 ### REST Examples
+
+(You can get the key from the Dashboard)
 
 `export JELLOKEY=<insert_key_here>`
 

@@ -21,7 +21,7 @@ import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
 /**
- * JAX-RS, CDI. Basic REST API for Cards
+ * RESTFull Web Services, Context and Dependency Injection. Basic REST API for Cards
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Path("/card")

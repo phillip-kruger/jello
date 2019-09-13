@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * Jax-rs, JAXP, JCache. Get a quote for the day from an online service
+ * RESTFull WebServices, XML Processing, JCache. Get a quote for the day from an online service
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @RequestScoped

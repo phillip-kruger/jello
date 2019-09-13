@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 /**
- * JCache, CDI, JNDI. Configure the JCache Provider
+ * JCache, Context and Dependency Injection. Configure the JCache Provider
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  * 
  */

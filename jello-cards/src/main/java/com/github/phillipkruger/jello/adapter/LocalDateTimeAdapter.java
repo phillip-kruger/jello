@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB. XML-Object-XML for LocalDateTime
+ * XML Binding. XML-Object-XML for LocalDateTime
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {

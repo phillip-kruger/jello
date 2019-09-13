@@ -9,7 +9,7 @@ import javax.inject.Named;
 import lombok.Getter;
 
 /**
- * JSF. Controller for theme
+ * Server Faces. Controller for theme
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @ApplicationScoped

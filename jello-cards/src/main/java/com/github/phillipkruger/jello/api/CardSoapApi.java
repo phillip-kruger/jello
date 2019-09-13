@@ -10,7 +10,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
- * JAX-WS, CDI. Basic SOAP API for Cards
+ * Enterprise Web Services, Context and Dependency Injection. Basic SOAP API for Cards
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @DeclareRoles({"admin","user"})

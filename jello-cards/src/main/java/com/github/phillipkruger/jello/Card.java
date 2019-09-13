@@ -27,7 +27,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * JPA, JAXB, JSON-B, Bean Validation. Represent a card in a lane on a board
+ * Persistence, XML Binding, JSON Binding, Bean Validation. Represent a card in a lane on a board
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Data @AllArgsConstructor @NoArgsConstructor

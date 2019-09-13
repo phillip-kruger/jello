@@ -29,7 +29,7 @@ import javax.validation.constraints.Min;
 import lombok.extern.java.Log;
 
 /**
- * JPA, CDI, Security, JCache. Service in front of the data storage
+ * Persistence, Contexts and Dependency Injection, Security, JCache. Service in front of the data storage
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Stateless // - Then @RolesAllowed works

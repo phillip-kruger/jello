@@ -13,7 +13,7 @@ import javax.interceptor.InvocationContext;
 import lombok.extern.java.Log;
 
 /**
- * Interceptor, CDI. Intercept a method and send a CDI event.
+ * Interceptor, Context and Dependency Injection. Intercept a method and send a CDI event.
  * This interceptor look for a card object, firstly as a return object, or failing that
  * a input parameter. This card is the one that gets included with the notification.
  * @author Phillip Kruger (phillip.kruger@redhat.com)

@@ -20,17 +20,13 @@
         <user name="guest" password="0p3nL1b3ry" />
     </basicRegistry> 
     
+    <jmsActivationSpec id="audit/cardQueueMDB">
+        <properties.wasJms/>
+    </jmsActivationSpec>
+    
     <messagingEngine>
         <queue id="cardQueue" />
     </messagingEngine>
-    
-    <jmsActivationSpec id="audit/CardQueueConsumer">
-        <properties.wasJms destinationRef="cardQueue"/>
-    </jmsActivationSpec>
-    
-    <jmsDestination jndiName="jms/cardQueue">
-        <properties.wasJms destination="cardQueue"/>
-    </jmsDestination>
     
     <dataSource id="DefaultDataSource" jdbcDriverRef="DerbyEmbedded">
         <properties.derby.embedded createDatabase="create" databaseName="${server.config.dir}/data"/>

@@ -52,7 +52,7 @@
         
         
         <!-- Jakarta EE Platform -->        
-        <jakartaee.version>8.0</jakartaee.version>        
+        <jakartaee.version>8.0.0</jakartaee.version>        
         <lombok.version>1.18.8</lombok.version>
         
         <!-- Testing -->
@@ -69,8 +69,8 @@
         <dependencies>
             <!-- Jakarta EE -->
             <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
                 <version>${jakartaee.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -120,8 +120,8 @@
     <dependencies>
         <!-- Jakarta EE -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
