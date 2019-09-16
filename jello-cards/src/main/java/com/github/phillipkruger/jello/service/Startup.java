@@ -45,8 +45,8 @@ public class Startup {
                 generateComment(PHILLIP,D9,"As discussed on the Azure card"));
         em.persist(c4);
         
-        Card c5 = generateDummyCard(PHILLIP,D10,"Documentation in README","Add some documentation",Swimlane.release);
-        em.persist(c4);
+        Card c5 = generateDummyCard(CHARMAINE,D10,"Documentation in README","Add some documentation",Swimlane.release);
+        em.persist(c5);
     }
     
     private Card generateDummyCard(String by,LocalDateTime at,String title,String desc,Swimlane lane,Comment... comment){
