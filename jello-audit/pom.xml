@@ -48,9 +48,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>openshift</id>
-        </profile>
         
         <profile>
             <id>wildfly</id>

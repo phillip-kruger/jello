@@ -60,6 +60,14 @@
             <artifactId>cache-annotations-ri-cdi</artifactId>
             <version>${jcache.version}</version>
         </dependency>   
+        <!-- We need an JCache implementation -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>3.12.2</version>
+            <scope>runtime</scope>
+        </dependency>    
+            
         <!-- Testing -->
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>
@@ -113,32 +121,8 @@
     <profiles>
         
         <profile>
-            <id>openshift</id>
-            
-            <!-- We need an JCache implementation -->
-            <dependencies>
-                <dependency>
-                    <groupId>com.hazelcast</groupId>
-                    <artifactId>hazelcast</artifactId>
-                    <version>3.12.2</version>
-                    <scope>runtime</scope>
-                </dependency>    
-            </dependencies>
-            
-        </profile>
-        
-        <profile>
             <id>portable-war</id>
             
-            <!-- We need an JCache implementation -->
-            <dependencies>
-                <dependency>
-                    <groupId>com.hazelcast</groupId>
-                    <artifactId>hazelcast</artifactId>
-                    <version>3.12.2</version>
-                    <scope>runtime</scope>
-                </dependency>    
-            </dependencies>
             <build>
                 <plugins>
         
@@ -156,16 +140,6 @@
         
         <profile>
             <id>wildfly</id>
-        
-            <!-- We need an JCache implementation -->
-            <dependencies>
-                <dependency>
-                    <groupId>com.hazelcast</groupId>
-                    <artifactId>hazelcast</artifactId>
-                    <version>3.12.2</version>
-                    <scope>runtime</scope>
-                </dependency>    
-            </dependencies>
                     
             <build>
                 
@@ -221,16 +195,6 @@
             <properties>
                 <derby.version>10.14.1.0</derby.version>
             </properties>
-            
-            <!-- We need an JCache implementation -->
-            <dependencies>
-                <dependency>
-                    <groupId>com.hazelcast</groupId>
-                    <artifactId>hazelcast</artifactId>
-                    <version>3.12.2</version>
-                    <scope>runtime</scope>
-                </dependency>    
-            </dependencies>
             
             <build>
                 <resources>
@@ -324,6 +288,16 @@
                 <payara.home>${project.build.directory}/payara5</payara.home>
                 <payara.domainDir>${payara.home}/glassfish/domains</payara.domainDir>
             </properties>
+            
+            <!-- Hazelcast is already included in Payara -->
+            <dependencies>
+                <dependency>
+                    <groupId>com.hazelcast</groupId>
+                    <artifactId>hazelcast</artifactId>
+                    <version>3.12.2</version>
+                    <scope>provided</scope>
+                </dependency>    
+            </dependencies>
             
             <build>
                 <plugins>
