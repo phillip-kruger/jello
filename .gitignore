@@ -24,3 +24,4 @@ hs_err_pid*
 /jello-cards/target/
 /jello-online-log/target/
 /jello-audit/target/
+/target/
