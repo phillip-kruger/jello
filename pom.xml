@@ -136,4 +136,15 @@
         <module>jello-cards</module>
         <module>jello-audit</module>
     </modules>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.31.0</version>
+            </plugin> 
+        </plugins>
+    </build>
+    
 </project>

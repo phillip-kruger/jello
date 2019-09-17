@@ -43,6 +43,8 @@ You can see the Web GUI here: http://localhost:8080/cards
 
 (Log in with any email, as long as the password is also that email)
 
+
+
 #### Log in screen
 ![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_login.png)
 
@@ -73,6 +75,14 @@ You can see the Web GUI here: http://localhost:8080/audit/app
 (Click on connect to start receiving messages)
 
 ![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_audit.png)
+
+#### OpenShift
+
+Deploy the docker image to Openshift, add ENV **JAVA_OPTS**:-Djboss.bind.address=0.0.0.0
+
+quay.io/phillip_kruger/jello
+
+![](https://raw.githubusercontent.com/phillip-kruger/jello/master/screen_openshift.png)
 
 ## Demo
 
