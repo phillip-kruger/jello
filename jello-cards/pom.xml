@@ -113,6 +113,21 @@
     <profiles>
         
         <profile>
+            <id>openshift</id>
+            
+            <!-- We need an JCache implementation -->
+            <dependencies>
+                <dependency>
+                    <groupId>com.hazelcast</groupId>
+                    <artifactId>hazelcast</artifactId>
+                    <version>3.12.2</version>
+                    <scope>runtime</scope>
+                </dependency>    
+            </dependencies>
+            
+        </profile>
+        
+        <profile>
             <id>portable-war</id>
             
             <!-- We need an JCache implementation -->
