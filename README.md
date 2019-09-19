@@ -30,6 +30,13 @@ cd jello-cards/
 mvn clean install -Pwildfly
 ```
 
+#### OpenLiberty:
+
+```shell
+cd jello-cards/
+mvn clean install -Popenliberty
+```
+
 #### Payara:
 
 ```shell
@@ -61,6 +68,13 @@ You can start the application using maven running under Wildfly, Payara or OpenL
 ```shell
 cd jello-audit/
 mvn clean install -Pwildfly
+```
+
+#### OpenLiberty:
+
+```shell
+cd jello-audit/
+mvn clean install -Popenliberty
 ```
 
 #### Payara:
@@ -118,4 +132,4 @@ You can make it your own or use it as is. You are also welcome to improve the ta
 
 ### Known presentations
 
-* [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) (Sept 2019)
+* [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) and [Ed Burns](https://twitter.com/edburns)(Sept 2019)
