@@ -1,6 +1,7 @@
 package com.github.phillipkruger.jello.queue;
 
 import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.Queue;
@@ -12,7 +13,7 @@ import lombok.extern.java.Log;
  */
 @Log
 @JMSDestinationDefinition(
-    name="java:app/cardQueue",
+    name="java:global/cardQueue",
     interfaceName="javax.jms.Queue",
     destinationName="cardQueue")
 public class QueueInitializer {
@@ -22,7 +23,7 @@ public class QueueInitializer {
         return this.queue;
     }
     
-    @Resource(lookup = "java:app/cardQueue")
+    @Resource(lookup = "java:global/cardQueue")
     private Queue queue;
 
 }

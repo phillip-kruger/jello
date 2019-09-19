@@ -20,11 +20,11 @@ import lombok.extern.java.Log;
  * @author Phillip Kruger (phillip.kruger@redhat.com)
  */
 @Log
-@MessageDriven(name="cardQueueMDB", mappedName="java:app/cardQueue",activationConfig =  {
+@MessageDriven(name="cardQueueMDB", mappedName="java:global/cardQueue",activationConfig =  {
     @ActivationConfigProperty(propertyName = "destinationType",
                               propertyValue = "javax.jms.Queue"),
     @ActivationConfigProperty(propertyName = "destination",
-            propertyValue = "cardQueue")
+            propertyValue = "java:global/cardQueue")
 })
 public class CardQueueConsumer implements MessageListener {
     

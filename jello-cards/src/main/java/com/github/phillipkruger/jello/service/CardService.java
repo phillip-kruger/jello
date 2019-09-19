@@ -47,7 +47,7 @@ public class CardService {
     private SecurityContext securityContext;
     
     @Notify(ChangeEventType.create)
-    @Transactional
+    //@Transactional
     @CachePut( cacheKeyGenerator = CardCacheKeyGenerator.class)
     @RolesAllowed("user")
     public Card createCard(@NotNull @CacheValue Card card) {
@@ -74,7 +74,7 @@ public class CardService {
     }
 
     @Notify(ChangeEventType.delete)
-    @Transactional
+    //@Transactional
     @CacheRemove(cacheKeyGenerator = CardCacheKeyGenerator.class)
     @RolesAllowed("admin")
     public void removeCard(@NotNull Card card) {
@@ -84,7 +84,7 @@ public class CardService {
     }
     
     @Notify(ChangeEventType.update)
-    @Transactional
+    //@Transactional
     @CachePut(cacheKeyGenerator = CardCacheKeyGenerator.class)
     @RolesAllowed("user")
     public Card updateCard(@NotNull @CacheValue Card card) {
