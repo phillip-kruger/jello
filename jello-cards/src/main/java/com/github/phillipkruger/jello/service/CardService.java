@@ -24,7 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.security.enterprise.SecurityContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
 import javax.validation.constraints.Min;
 import lombok.extern.java.Log;
 

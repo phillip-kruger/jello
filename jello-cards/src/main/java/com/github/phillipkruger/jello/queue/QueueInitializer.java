@@ -1,7 +1,6 @@
 package com.github.phillipkruger.jello.queue;
 
 import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.Queue;
