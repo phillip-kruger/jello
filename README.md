@@ -44,7 +44,7 @@ cd jello-cards/
 mvn clean install -Ppayara
 ```
 
-This will download (fisrt time only), install and start a Wildfly application server and deploy the app.
+This will download (first time only), install and start a Wildfly application server and deploy the app.
 
 You can see the Web GUI here: http://localhost:8080/cards
 
