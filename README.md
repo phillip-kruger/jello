@@ -132,4 +132,4 @@ You can make it your own or use it as is. You are also welcome to improve the ta
 
 ### Known presentations
 
-* [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) and [Ed Burns](https://twitter.com/edburns)(Sept 2019)
+* [Oracle Code One 2019](https://www.oracle.com/code-one/):  [[Google Slides](http://bit.ly/jakartaee-slides)] - by [Phillip Kruger](https://twitter.com/phillipkruger) and [Ed Burns](https://twitter.com/edburns)(Sept 2019) ([video](https://www.youtube.com/watch?v=FL0JNVK2Ig8))
