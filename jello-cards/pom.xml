@@ -67,7 +67,14 @@
             <version>3.12.2</version>
             <scope>runtime</scope>
         </dependency>    
-            
+        
+        <!-- Apiee -->
+        <dependency>
+            <groupId>com.github.phillip-kruger</groupId>
+            <artifactId>apiee-core</artifactId>
+            <version>1.0.8</version>
+        </dependency>  
+                    
         <!-- Testing -->
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>
