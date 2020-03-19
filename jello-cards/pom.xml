@@ -16,14 +16,14 @@
     <name>Jello :: Cards</name>
     
     <properties>
-        <javafaker.version>1.0.0</javafaker.version>
+        <javafaker.version>1.0.2</javafaker.version>
         <h2.version>1.4.199</h2.version>
         <surefire.version>2.22.1</surefire.version>
         
         <!-- JSF libraries -->
-        <primefaces.version>7.0</primefaces.version>
-        <primefaces-extensions.version>7.0.1</primefaces-extensions.version>
-        <adminfaces.version>1.0.2</adminfaces.version>
+        <primefaces.version>8.0</primefaces.version>
+        <primefaces-extensions.version>8.0</primefaces-extensions.version>
+        <adminfaces.version>1.1.0</adminfaces.version>
         
         <!-- JCache -->
         <jcache.version>1.1.1</jcache.version>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
-            <version>3.12.2</version>
+            <version>3.12.6</version>
             <scope>runtime</scope>
         </dependency>    
         
@@ -164,7 +164,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>2.0.1.Final</version>    
+                        <version>2.0.2.Final</version>    
                         <configuration>
                             <server-config>standalone-full.xml</server-config>
                             <systemProperties>

@@ -53,15 +53,15 @@
         
         <!-- Jakarta EE Platform -->        
         <jakartaee.version>8.0.0</jakartaee.version>        
-        <lombok.version>1.18.8</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         
         <!-- Testing -->
-        <arquillian.version>1.4.1.Final</arquillian.version>
-        <resteasy.version>4.1.1.Final</resteasy.version>
-        <testng.version>6.14.3</testng.version>
+        <arquillian.version>1.6.0.Final</arquillian.version>
+        <resteasy.version>4.5.2.Final</resteasy.version>
+        <testng.version>7.1.0</testng.version>
         
         <!-- Runtime -->
-        <thorntail.version>2.5.0.Final</thorntail.version>
+        <thorntail.version>2.6.0.Final</thorntail.version>
         
     </properties>
     
@@ -71,6 +71,18 @@
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${jakartaee.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.ws</groupId>
+                <artifactId>jakarta.xml.ws-api</artifactId>
+                <version>2.3.3</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-bom</artifactId>
                 <version>${jakartaee.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -142,9 +154,42 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.31.0</version>
+                <version>0.33.0</version>
             </plugin> 
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jdk11plus</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <properties>
+                <jboss.extra.opts>--add-modules java.se</jboss.extra.opts>
+            </properties>
+
+
+            <dependencies>
+                <!-- Add JAXB -->
+                <dependency>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                    <version>2.3.3</version>
+                </dependency>
+                <!-- Add SOAP -->
+                <dependency>
+                    <groupId>jakarta.jws</groupId>
+                    <artifactId>jakarta.jws-api</artifactId>
+                    <version>2.1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.xml.ws</groupId>
+                    <artifactId>jakarta.xml.ws-api</artifactId>
+                    <version>2.3.3</version>
+                </dependency>
+            </dependencies>
+
+        </profile>
+    </profiles>
     
 </project>
